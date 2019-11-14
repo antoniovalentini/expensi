@@ -20,7 +20,23 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
                     What = "Cintura RDX",
                     When = DateTime.Now,
                     Where = "Amazon",
-                }
+                },
+                new Expense
+                {
+                    Id = "2",
+                    Amount = 44M,
+                    What = "Lampada",
+                    When = DateTime.Now.AddDays(-10),
+                    Where = "OBI",
+                },
+                new Expense
+                {
+                    Id = "2",
+                    Amount = 33M,
+                    What = "Dominio + Hosting",
+                    When = DateTime.Now.AddDays(-25),
+                    Where = "Aruba",
+                },
             };
         }
 
