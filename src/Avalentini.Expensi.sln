@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Expensi.Api", "Avalentini.Expensi.Api\Avalentini.Expensi.Api.csproj", "{F012B6B5-BE11-4BB4-B47D-70F198EBEA3C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{CDCE513A-756F-4360-8ECB-C9EDFA84AB2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Expensi.Mobile.Android", "Mobile\Avalentini.Expensi.Mobile\Avalentini.Expensi.Mobile.Android\Avalentini.Expensi.Mobile.Android.csproj", "{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Expensi.Mobile", "Mobile\Avalentini.Expensi.Mobile\Avalentini.Expensi.Mobile\Avalentini.Expensi.Mobile.csproj", "{878460EB-C660-47C5-913E-78E4AE32EC39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +21,23 @@ Global
 		{F012B6B5-BE11-4BB4-B47D-70F198EBEA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F012B6B5-BE11-4BB4-B47D-70F198EBEA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F012B6B5-BE11-4BB4-B47D-70F198EBEA3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{878460EB-C660-47C5-913E-78E4AE32EC39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{878460EB-C660-47C5-913E-78E4AE32EC39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{878460EB-C660-47C5-913E-78E4AE32EC39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{878460EB-C660-47C5-913E-78E4AE32EC39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A32CED3F-8BE2-43A5-833C-814CDBF98F5E} = {CDCE513A-756F-4360-8ECB-C9EDFA84AB2D}
+		{878460EB-C660-47C5-913E-78E4AE32EC39} = {CDCE513A-756F-4360-8ECB-C9EDFA84AB2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {076147B6-7D16-417A-BBFF-7D9F181BF4F9}
