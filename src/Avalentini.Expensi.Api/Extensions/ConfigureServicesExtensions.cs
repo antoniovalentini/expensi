@@ -3,6 +3,8 @@ using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 
 namespace Avalentini.Expensi.Api.Extensions
@@ -32,6 +34,14 @@ namespace Avalentini.Expensi.Api.Extensions
                     }
                 });
             });
+        }
+
+        public static void AddMongoDbCollection<T>(this IServiceCollection services, string mongoConnectionString, string mongoDbName, string mongoCollectionName)
+        {
+            var client = new MongoClient(mongoConnectionString);
+            var database = client.GetDatabase(mongoDbName);
+            var collection = database.GetCollection<T>(mongoCollectionName);
+            services.AddSingleton(collection);
         }
     }
 

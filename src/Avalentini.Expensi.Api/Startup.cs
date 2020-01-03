@@ -1,6 +1,10 @@
+using AutoMapper;
+using Avalentini.Expensi.Api.Contracts.Models;
+using Avalentini.Expensi.Api.Data.Entities;
 using Avalentini.Expensi.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -9,10 +13,30 @@ namespace Avalentini.Expensi.Api
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var connString = Configuration["MongoDbConnection"];
+            services.AddMongoDbCollection<ExpensesPerUser>(connString,
+                "expensi", "expenses");
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.CreateMap<ExpenseMongoEntity, Expense>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom( entity => entity.ExpenseId));
+                cfg.CreateMap<Expense, ExpenseMongoEntity>()
+                    .ForMember(dest => dest.CreationDate, opt => opt.Ignore())
+                    .ForMember(dest => dest.ExpenseId, opt => opt.MapFrom(src => src.Id));
+            }, typeof(Startup));
+
             services.AddCors();
             services.AddMvcCore().AddApiExplorer();
 

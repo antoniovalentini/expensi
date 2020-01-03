@@ -1,48 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Avalentini.Expensi.Api.Contracts.Models;
+using Avalentini.Expensi.Api.Data.Entities;
+using MongoDB.Driver;
 
 namespace Avalentini.Expensi.Api.Data.Repository.Expenses
 {
     public class ExpensesMongoRepository
     {
-        private readonly List<Expense> _expenses;
+        private readonly IMongoCollection<ExpensesPerUser> _collection;
+        private readonly ExpensesPerUser _expensesPerUser;
+        private readonly IMapper _mapper;
 
-        public ExpensesMongoRepository()
+        public ExpensesMongoRepository(IMongoCollection<ExpensesPerUser> collection, IMapper mapper, int userId)
         {
-            _expenses = new List<Expense>
-            {
-                new Expense
-                {
-                    Id = "1",
-                    Amount = 48M,
-                    What = "Cintura RDX",
-                    When = DateTime.Now,
-                    Where = "Amazon",
-                },
-                new Expense
-                {
-                    Id = "2",
-                    Amount = 44M,
-                    What = "Lampada",
-                    When = DateTime.Now.AddDays(-10),
-                    Where = "OBI",
-                },
-                new Expense
-                {
-                    Id = "2",
-                    Amount = 33M,
-                    What = "Dominio + Hosting",
-                    When = DateTime.Now.AddDays(-25),
-                    Where = "Aruba",
-                },
-            };
+            _mapper = mapper;
+            _collection = collection;
+            var element = collection.Find(e => e.UserId == userId);
+            _expensesPerUser = element.CountDocuments() > 0 ? element.ToList().First() : new ExpensesPerUser();
         }
 
         public async Task<IList<Expense>> GetAll()
         {
-            return await Task.FromResult(_expenses).ConfigureAwait(false);
+            var result = new List<Expense>();
+            foreach (var exp in _expensesPerUser.Expenses)
+            {
+                result.Add(_mapper.Map<Expense>(exp));
+            }
+            return await Task.FromResult(result).ConfigureAwait(false);
+        }
+
+        public async Task<Expense> Get(string id)
+        {
+            var entity = _expensesPerUser.Expenses.FirstOrDefault(e => e.ExpenseId == id);
+            return await Task.FromResult(entity == null ? null : _mapper.Map<Expense>(entity)).ConfigureAwait(false);
+        }
+
+        public void Add(Expense expense)
+        {
+            var entity = _mapper.Map<ExpenseMongoEntity>(expense);
+            entity.CreationDate = DateTime.Now;
+            entity.ExpenseId = Guid.NewGuid().ToString();
+            _expensesPerUser.Expenses.Add(entity);
+            _collection.ReplaceOne(eu => eu.UserId == _expensesPerUser.UserId, _expensesPerUser);
+        }
+
+        public void Edit(string id, Expense expense)
+        {
+            if (id != expense.Id)
+                return;
+
+            var oldEntity = _expensesPerUser.Expenses.FirstOrDefault(e => e.ExpenseId == id);
+            if (oldEntity == null)
+                return;
+            var entity = _mapper.Map<ExpenseMongoEntity>(expense);
+
+            // TODO: preserve cretion date (find a smarter way to do it)
+            entity.CreationDate = oldEntity.CreationDate;
+
+            _expensesPerUser.Expenses.Remove(oldEntity);
+            _expensesPerUser.Expenses.Add(entity);
+            _collection.ReplaceOne(eu => eu.UserId == _expensesPerUser.UserId, _expensesPerUser);
+        }
+
+        public void Remove(string id)
+        {
+            var entity = _expensesPerUser.Expenses.FirstOrDefault(e => e.ExpenseId == id);
+            // it's already checked inside the controller
+            // two checkes means 2 calls... should we remove 1?
+            if (entity == null)
+                return;
+
+            _expensesPerUser.Expenses.Remove(entity);
+            _collection.ReplaceOne(eu => eu.UserId == _expensesPerUser.UserId, _expensesPerUser);
+        }
+
+        public bool Exists(Expense expense)
+        {
+            return _expensesPerUser.Expenses.Any(e => e.ExpenseId == expense.Id);
         }
     }
 }
