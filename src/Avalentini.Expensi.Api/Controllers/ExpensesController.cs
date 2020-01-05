@@ -5,12 +5,14 @@ using AutoMapper;
 using Avalentini.Expensi.Api.Contracts.Models;
 using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Data.Repository.Expenses;
+using Microsoft.AspNetCore.Authorization;
 using MongoDB.Driver;
 
 namespace Avalentini.Expensi.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ExpensesController : ControllerBase
     {
         private ExpensesMongoRepository _repo;

@@ -2,6 +2,7 @@ using AutoMapper;
 using Avalentini.Expensi.Api.Contracts.Models;
 using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,18 @@ namespace Avalentini.Expensi.Api
                     .ForMember(dest => dest.ExpenseId, opt => opt.MapFrom(src => src.Id));
             }, typeof(Startup));
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["Authority"];
+                options.Audience = Configuration["Audience"];
+            });
+
+            services.AddAuthorization(); 
+
             services.AddCors();
             services.AddMvcCore().AddApiExplorer();
 
@@ -66,6 +79,10 @@ namespace Avalentini.Expensi.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseHttpsRedirection();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -73,7 +90,6 @@ namespace Avalentini.Expensi.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expensi API V1");
             });
 
-            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
