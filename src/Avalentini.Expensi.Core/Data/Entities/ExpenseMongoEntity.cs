@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Bson;
+//using System.ComponentModel.DataAnnotations.Schema;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Avalentini.Expensi.DbSeed
+namespace Avalentini.Expensi.Core.Data.Entities
 {
     public class ExpenseMongoEntity
     {
         [BsonElement("expense_id")]
         public string ExpenseId { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
+        //[Column(TypeName = "decimal(18,2)")]
         [BsonElement("amount")]
         public decimal Amount { get; set; }
         [BsonElement("what")]
@@ -26,18 +24,5 @@ namespace Avalentini.Expensi.DbSeed
         {
             return $"{nameof(ExpenseId)}: {ExpenseId}, {nameof(Amount)}: {Amount}, {nameof(What)}: {What}, {nameof(Where)}: {Where}, {nameof(When)}: {When}, {nameof(CreationDate)}: {CreationDate}";
         }
-    }
-
-    public class ExpensesPerUser
-    {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ObjectId { get; set; }
-
-        [BsonElement("user_id")]
-        public int UserId { get; set; }
-
-        [BsonElement("expenses")]
-        public List<ExpenseMongoEntity> Expenses { get; set; } = new List<ExpenseMongoEntity>();
     }
 }

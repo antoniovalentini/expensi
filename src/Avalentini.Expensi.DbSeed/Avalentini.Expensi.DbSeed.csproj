@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Avalentini.Expensi.Core\Avalentini.Expensi.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings_secret.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

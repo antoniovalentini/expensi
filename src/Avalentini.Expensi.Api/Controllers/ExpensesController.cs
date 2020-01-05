@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Avalentini.Expensi.Api.Contracts.Models;
-using Avalentini.Expensi.Api.Data.Entities;
+using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Data.Repository.Expenses;
 using MongoDB.Driver;
 

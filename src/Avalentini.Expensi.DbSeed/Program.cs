@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Avalentini.Expensi.Core.Data.Entities;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 

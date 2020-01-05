@@ -1,6 +1,6 @@
 using AutoMapper;
 using Avalentini.Expensi.Api.Contracts.Models;
-using Avalentini.Expensi.Api.Data.Entities;
+using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
