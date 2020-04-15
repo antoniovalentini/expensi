@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Net;
+using AutoMapper;
+using Avalentini.Expensi.Api.Contracts.Models;
+using Avalentini.Expensi.Core.Data.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -30,18 +35,61 @@ namespace Avalentini.Expensi.Api.Extensions
                             StatusCode = context.Response.StatusCode,
                             Message = "Internal Server Error."
                         });
-                        await context.Response.WriteAsync(error);
+                        await context.Response.WriteAsync(error).ConfigureAwait(false);
                     }
                 });
             });
         }
 
-        public static void AddMongoDbCollection<T>(this IServiceCollection services, string mongoConnectionString, string mongoDbName, string mongoCollectionName)
+        public static IServiceCollection AddMongoDbCollection<T>(this IServiceCollection services, IConfiguration config)
         {
-            var client = new MongoClient(mongoConnectionString);
-            var database = client.GetDatabase(mongoDbName);
-            var collection = database.GetCollection<T>(mongoCollectionName);
+            if (config == null) throw new ArgumentNullException(nameof(config));
+
+            var client = new MongoClient(config["MongoDbConnection"]);
+            var database = client.GetDatabase(config["MongoDbName"]);
+            var collection = database.GetCollection<T>(config["MongoCollectionName"]);
             services.AddSingleton(collection);
+
+            return services;
+        }
+
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = config["Authority"];
+                options.Audience = config["Audience"];
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthorizationWithPolicy(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+                options.AddPolicy("userIdPolicy",
+                    builder => builder.RequireClaim("http://schemas.xmlsoap.org/ws/2020/04/identity/claims/userid")));
+
+            return services;
+        }
+
+        public static IServiceCollection AddAutoMapperWithMappings(this IServiceCollection services)
+        {
+            services.AddAutoMapper(ConfigAction, typeof(Startup));
+            return services;
+        }
+
+        private static void ConfigAction(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<ExpenseMongoEntity, Expense>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(entity => entity.ExpenseId));
+            cfg.CreateMap<Expense, ExpenseMongoEntity>()
+                .ForMember(dest => dest.CreationDate, opt => opt.Ignore())
+                .ForMember(dest => dest.ExpenseId, opt => opt.MapFrom(src => src.Id));
         }
     }
 
