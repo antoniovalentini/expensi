@@ -50,7 +50,7 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
 
         public void Edit(string id, Expense expense)
         {
-            if (id != expense.Id)
+            if (expense != null && expense.Id != id)
                 return;
 
             var oldEntity = _expensesPerUser.Expenses.FirstOrDefault(e => e.ExpenseId == id);
