@@ -21,15 +21,11 @@ namespace Avalentini.Expensi.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services
                 .AddMongoDbCollection<ExpensesPerUser>(Configuration)
                 .AddAutoMapperWithMappings();
 
             services
-                .AddJwtAuthentication(Configuration)
-                .AddAuthorizationWithPolicy()
                 .AddCors()
                 .AddMvcCore()
                 .AddApiExplorer();
@@ -59,9 +55,6 @@ namespace Avalentini.Expensi.Api
                 .AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

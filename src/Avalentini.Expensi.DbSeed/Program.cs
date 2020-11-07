@@ -14,7 +14,7 @@ namespace Avalentini.Expensi.DbSeed
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings_secret.json", false, true)
+                .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables()
                 .Build();
 
