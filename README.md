@@ -5,13 +5,12 @@ A simple budget management application.
 Add these configuration parameters to test on localhost:
 ```javascript
 {
-  "MongoDbConfig": "mongodb://localhost",
-  "Authority": "<your_authority_domain>",
-  "Audience": "<your_audience>",
+  "MongoDbConnection": "mongodb://localhost:32768",
+  "MongoDbName":"expensi",
+  "MongoCollectionName": "expenses"
 }
 ```
 Then create a database named "expensi" and a collection named "expenses".
-In order to quick start the project with authentication, you can create a free account on [Auth0](https://auth0.com/).
 
 ## DbSeed
 In order to make it work, create a file appsettings_secret.json and set it to be copied to output directory.
