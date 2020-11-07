@@ -5,7 +5,7 @@ A simple budget management application.
 Add these configuration parameters to test on localhost:
 ```javascript
 {
-  "MongoDbConnection": "mongodb://localhost:32768",
+  "MongoDbConnection": "mongodb://localhost",
   "MongoDbName":"expensi",
   "MongoCollectionName": "expenses"
 }
