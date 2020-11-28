@@ -63,5 +63,37 @@ namespace Avalentini.Expensi.DbSeed
             "Item8",
             "Item9",
         };
+        
+        private static readonly List<string> Firstnames = new List<string>
+        {
+            "Pippo",
+            "Pluto",
+            "Paperino",
+            "Paperone",
+            "Topolino",
+        };
+        
+        private static readonly List<string> Lastnames = new List<string>
+        {
+            "Gonzales",
+            "Oculus",
+            "Reverendo",
+            "Belloccio",
+            "Polenta",
+        };
+
+        public static string NextFirstname()
+        {
+            var random = new Random();
+            var index = random.Next(0, Firstnames.Count);
+            return Firstnames[index];
+        }
+
+        public static string NextLastname()
+        {
+            var random = new Random();
+            var index = random.Next(0, Lastnames.Count);
+            return Lastnames[index];
+        }
     }
 }

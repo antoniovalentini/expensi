@@ -22,7 +22,7 @@ namespace Avalentini.Expensi.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMongoDbCollection<ExpensesPerUser>(Configuration)
+                .AddMongoDbCollection<UserEntity>(Configuration)
                 .AddAutoMapperWithMappings();
 
             services

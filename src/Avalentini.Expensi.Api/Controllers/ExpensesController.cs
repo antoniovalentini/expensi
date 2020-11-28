@@ -15,7 +15,7 @@ namespace Avalentini.Expensi.Api.Controllers
     {
         private readonly ExpensesMongoRepository _repo;
 
-        public ExpensesController(IMongoCollection<ExpensesPerUser> collection, IMapper mapper)
+        public ExpensesController(IMongoCollection<UserEntity> collection, IMapper mapper)
         {
             _repo = new ExpensesMongoRepository(collection, mapper);
         }

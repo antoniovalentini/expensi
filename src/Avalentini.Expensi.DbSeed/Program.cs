@@ -25,7 +25,7 @@ namespace Avalentini.Expensi.DbSeed
 
             var client = new MongoClient(mongoConfig.ConnectionString);
             var database = client.GetDatabase(mongoConfig.Database);
-            var collection = database.GetCollection<ExpensesPerUser>(mongoConfig.Collection);
+            var collection = database.GetCollection<UserEntity>(mongoConfig.Collection);
 
             var count = await TestReadAsync(collection);
 
@@ -34,7 +34,7 @@ namespace Avalentini.Expensi.DbSeed
                 if (!ShouldProceed(collection.CollectionNamespace.FullName))
                     return;
                 
-                collection.DeleteMany(FilterDefinition<ExpensesPerUser>.Empty);
+                collection.DeleteMany(FilterDefinition<UserEntity>.Empty);
             }
 
             await FeedCollectionAsync(collection);
@@ -42,9 +42,9 @@ namespace Avalentini.Expensi.DbSeed
             Console.WriteLine("Press any key to continue...");
         }
 
-        public static async Task FeedCollectionAsync(IMongoCollection<ExpensesPerUser> collection)
+        public static async Task FeedCollectionAsync(IMongoCollection<UserEntity> collection)
         {
-            var documents = new List<ExpensesPerUser>();
+            var documents = new List<UserEntity>();
 
             var users = 0;
             while (users <= 0)
@@ -71,13 +71,19 @@ namespace Avalentini.Expensi.DbSeed
             await collection.InsertManyAsync(documents);
         }
 
-        private static IEnumerable<ExpensesPerUser> CreateRandomExpensesPerUsers(int userCount, int expenseCount)
+        private static IEnumerable<UserEntity> CreateRandomExpensesPerUsers(int userCount, int expenseCount)
         {
-            var documents = new List<ExpensesPerUser>();
+            var documents = new List<UserEntity>();
 
             for (var i = 1; i <= userCount; i++)
             {
-                var user = new ExpensesPerUser {UserId = i, Expenses = new List<ExpenseMongoEntity>()};
+                var user = new UserEntity
+                {
+                    UserId = i, 
+                    Firstname = Randomizer.NextFirstname(),
+                    Lastname = Randomizer.NextLastname(),
+                    Expenses = new List<ExpenseMongoEntity>()
+                };
                 var rngAmount = new Random();
                 var rngDateTime = new Random();
                 for (var j = 0; j < expenseCount; j++)
@@ -118,12 +124,12 @@ namespace Avalentini.Expensi.DbSeed
             }
         }
 
-        public static async Task<long> TestReadAsync(IMongoCollection<ExpensesPerUser> collection)
+        public static async Task<long> TestReadAsync(IMongoCollection<UserEntity> collection)
         {
-            var count = await collection.CountDocumentsAsync(FilterDefinition<ExpensesPerUser>.Empty);
+            var count = await collection.CountDocumentsAsync(FilterDefinition<UserEntity>.Empty);
             Console.WriteLine($"Total documents: {count}\n");
 
-            var users = await collection.Find(FilterDefinition<ExpensesPerUser>.Empty).ToListAsync();
+            var users = await collection.Find(FilterDefinition<UserEntity>.Empty).ToListAsync();
 
             foreach (var user in users)
             {
