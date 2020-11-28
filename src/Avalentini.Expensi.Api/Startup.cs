@@ -45,6 +45,7 @@ namespace Avalentini.Expensi.Api
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
             
             app.ConfigureExceptionHandler();
@@ -53,7 +54,6 @@ namespace Avalentini.Expensi.Api
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseSwagger();
