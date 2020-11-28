@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Avalentini.Expensi.Api.Contracts.Models;
+using Avalentini.Expensi.Core.Data.ApiContracts;
 using Avalentini.Expensi.Core.Data.Entities;
 using MongoDB.Driver;
 
@@ -38,13 +38,16 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
             return await Task.FromResult(entity == null ? null : _mapper.Map<Expense>(entity)).ConfigureAwait(false);
         }
 
-        public void Add(Expense expense)
+        public async Task<Expense> Add(int userId, Expense expense)
         {
+            _user = await FetchUser(userId).ConfigureAwait(false);
+
             var entity = _mapper.Map<ExpenseMongoEntity>(expense);
             entity.CreationDate = DateTime.Now;
             entity.ExpenseId = Guid.NewGuid().ToString();
             _user.Expenses.Add(entity);
-            _collection.ReplaceOne(eu => eu.UserId == _user.UserId, _user);
+            await _collection.ReplaceOneAsync(eu => eu.UserId == _user.UserId, _user).ConfigureAwait(false);
+            return _mapper.Map<Expense>(entity);
         }
 
         public void Edit(string id, Expense expense)

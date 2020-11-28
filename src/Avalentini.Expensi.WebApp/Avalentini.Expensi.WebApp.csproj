@@ -13,4 +13,8 @@
     <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Avalentini.Expensi.Core\Avalentini.Expensi.Core.csproj" />
+  </ItemGroup>
+
 </Project>

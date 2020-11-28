@@ -1,3 +1,4 @@
+using Avalentini.Expensi.WebApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,7 @@ namespace Avalentini.Expensi.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ExpenseService>();
             services.AddRazorPages();
         }
 

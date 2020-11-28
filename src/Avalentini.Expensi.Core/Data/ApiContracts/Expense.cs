@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Avalentini.Expensi.Api.Contracts.Models
+namespace Avalentini.Expensi.Core.Data.ApiContracts
 {
     public class Expense
     {

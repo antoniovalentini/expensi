@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using AutoMapper;
-using Avalentini.Expensi.Api.Contracts.Models;
+using Avalentini.Expensi.Core.Data.ApiContracts;
 using Avalentini.Expensi.Core.Data.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

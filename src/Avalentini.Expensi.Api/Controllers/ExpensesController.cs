@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Avalentini.Expensi.Api.Contracts.Models;
 using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Data.Repository.Expenses;
+using Avalentini.Expensi.Core.Data.ApiContracts;
 using MongoDB.Driver;
 
 namespace Avalentini.Expensi.Api.Controllers
@@ -25,6 +25,14 @@ namespace Avalentini.Expensi.Api.Controllers
         public async Task<IEnumerable<Expense>> Get(int userId)
         {
             return await _repo.GetAll(userId).ConfigureAwait(false);
+        }
+        
+        // POST: api/Expenses
+        [HttpPost]
+        public async Task<IActionResult> Post([FromQuery] int userId, [FromBody] Expense expense)
+        {
+            expense = await _repo.Add(userId, expense).ConfigureAwait(false);
+            return CreatedAtAction("Get", new { id = expense.Id }, expense);
         }
     }
 }
