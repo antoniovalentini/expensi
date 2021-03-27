@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Avalentini.Expensi.Api.Data;
 using Avalentini.Expensi.Api.Data.Repository.Expenses;
 using Avalentini.Expensi.Core.Data.ApiContracts;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +15,10 @@ namespace Avalentini.Expensi.Api.Controllers
     {
         private readonly IExpensesRepository _repo;
 
-        public ExpensesController(IConfiguration config, IMapper mapper)
+        public ExpensesController(IConfiguration config, IMapper mapper, ExpensiDbContext context)
         {
-            _repo = new ExpensesMongoRepository(config, mapper);
+            //_repo = new ExpensesMongoRepository(config, mapper);
+            _repo = new SqliteExpensesRepository(context, mapper);
         }
 
         // GET: api/Expenses

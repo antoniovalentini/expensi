@@ -6,8 +6,8 @@ namespace Avalentini.Expensi.Core.Data.Entities
 {
     public class ExpenseMongoEntity
     {
-        [BsonElement("expense_id")]
-        public string ExpenseId { get; set; }
+        [BsonElement("expensemongoentity_id")]
+        public string ExpenseMongoEntityId { get; set; }
         //[Column(TypeName = "decimal(18,2)")]
         [BsonElement("amount")]
         public decimal Amount { get; set; }
@@ -22,7 +22,7 @@ namespace Avalentini.Expensi.Core.Data.Entities
 
         public override string ToString()
         {
-            return $"{nameof(ExpenseId)}: {ExpenseId}, {nameof(Amount)}: {Amount}, {nameof(What)}: {What}, {nameof(Where)}: {Where}, {nameof(When)}: {When}, {nameof(CreationDate)}: {CreationDate}";
+            return $"{nameof(ExpenseMongoEntityId)}: {ExpenseMongoEntityId}, {nameof(Amount)}: {Amount}, {nameof(What)}: {What}, {nameof(Where)}: {Where}, {nameof(When)}: {When}, {nameof(CreationDate)}: {CreationDate}";
         }
     }
 }

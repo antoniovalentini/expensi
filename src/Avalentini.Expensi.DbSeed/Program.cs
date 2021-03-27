@@ -79,7 +79,7 @@ namespace Avalentini.Expensi.DbSeed
             {
                 var user = new UserEntity
                 {
-                    UserId = i, 
+                    UserEntityId = i, 
                     Firstname = Randomizer.NextFirstname(),
                     Lastname = Randomizer.NextLastname(),
                     Expenses = new List<ExpenseMongoEntity>()
@@ -91,7 +91,7 @@ namespace Avalentini.Expensi.DbSeed
                     user.Expenses.Add(new ExpenseMongoEntity
                     {
                         Amount = rngAmount.NextDecimal(),
-                        ExpenseId = Guid.NewGuid().ToString(),
+                        ExpenseMongoEntityId = Guid.NewGuid().ToString(),
                         CreationDate = DateTime.Now,
                         What = Randomizer.NextItem(),
                         Where = Randomizer.NextPlace(),
@@ -133,7 +133,7 @@ namespace Avalentini.Expensi.DbSeed
 
             foreach (var user in users)
             {
-                Console.WriteLine($"User {user.UserId} expenses: {user.Expenses.Count}");
+                Console.WriteLine($"User {user.UserEntityId} expenses: {user.Expenses.Count}");
                 foreach (var expense in user.Expenses)
                 {
                     Console.WriteLine(expense + "\n");

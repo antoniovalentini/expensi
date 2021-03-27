@@ -1,7 +1,8 @@
-using Avalentini.Expensi.Core.Data.Entities;
+using Avalentini.Expensi.Api.Data;
 using Avalentini.Expensi.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,9 @@ namespace Avalentini.Expensi.Api
         {
             services
                 .AddAutoMapperWithMappings();
+
+            services.AddDbContext<ExpensiDbContext>(options =>
+                options.UseSqlite(@"Data Source=expensi.db"));
 
             services
                 .AddCors()

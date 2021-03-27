@@ -11,8 +11,8 @@ namespace Avalentini.Expensi.Core.Data.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string ObjectId { get; set; }
 
-        [BsonElement("user_id")]
-        public int UserId { get; set; }
+        [BsonElement("userentity_id")]
+        public int UserEntityId { get; set; }
         
         public string Firstname { get; set; }
         public string Lastname { get; set; }

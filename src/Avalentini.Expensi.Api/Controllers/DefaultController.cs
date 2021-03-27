@@ -11,9 +11,9 @@ namespace Avalentini.Expensi.Api.Controllers
         {
             return new JsonResult(new DefaultResult
             {
-                SwaggerJson = "http://localhost:5000/swagger/v1/swagger.json",
-                Swagger = "http://localhost:5000/swagger",
-                Test = "http://localhost:5000/api/expenses?userid=1"
+                SwaggerJson = "https://localhost:44358/swagger/v1/swagger.json",
+                Swagger = "https://localhost:44358/swagger",
+                Test = "https://localhost:44358/api/expenses?userid=1"
             });
         }
     }

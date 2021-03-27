@@ -35,7 +35,7 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
         {
             var entity = (await FetchUser(userId).ConfigureAwait(false))
                 .Expenses
-                .FirstOrDefault(e => e.ExpenseId == expenseId);
+                .FirstOrDefault(e => e.ExpenseMongoEntityId == expenseId);
             return await Task.FromResult(entity == null ? null : _mapper.Map<Expense>(entity)).ConfigureAwait(false);
         }
 
@@ -45,9 +45,9 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
 
             var entity = _mapper.Map<ExpenseMongoEntity>(expense);
             entity.CreationDate = DateTime.Now;
-            entity.ExpenseId = Guid.NewGuid().ToString();
+            entity.ExpenseMongoEntityId = Guid.NewGuid().ToString();
             _user.Expenses.Add(entity);
-            await _collection.ReplaceOneAsync(eu => eu.UserId == _user.UserId, _user).ConfigureAwait(false);
+            await _collection.ReplaceOneAsync(eu => eu.UserEntityId == _user.UserEntityId, _user).ConfigureAwait(false);
             return _mapper.Map<Expense>(entity);
         }
 
@@ -56,7 +56,7 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
             if (expense != null && expense.Id != id)
                 return;
 
-            var oldEntity = _user.Expenses.FirstOrDefault(e => e.ExpenseId == id);
+            var oldEntity = _user.Expenses.FirstOrDefault(e => e.ExpenseMongoEntityId == id);
             if (oldEntity == null)
                 return;
             var entity = _mapper.Map<ExpenseMongoEntity>(expense);
@@ -66,31 +66,31 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
 
             _user.Expenses.Remove(oldEntity);
             _user.Expenses.Add(entity);
-            _collection.ReplaceOne(eu => eu.UserId == _user.UserId, _user);
+            _collection.ReplaceOne(eu => eu.UserEntityId == _user.UserEntityId, _user);
         }
 
         public void Remove(string id)
         {
-            var entity = _user.Expenses.FirstOrDefault(e => e.ExpenseId == id);
+            var entity = _user.Expenses.FirstOrDefault(e => e.ExpenseMongoEntityId == id);
             // it's already checked inside the controller
             // two checks means 2 calls... should we remove 1?
             if (entity == null)
                 return;
 
             _user.Expenses.Remove(entity);
-            _collection.ReplaceOne(eu => eu.UserId == _user.UserId, _user);
+            _collection.ReplaceOne(eu => eu.UserEntityId == _user.UserEntityId, _user);
         }
 
         public bool Exists(Expense expense)
         {
-            return _user.Expenses.Any(e => e.ExpenseId == expense.Id);
+            return _user.Expenses.Any(e => e.ExpenseMongoEntityId == expense.Id);
         }
 
         private async Task<UserEntity> FetchUser(int userId)
         {
             if (_user is {}) return _user;
             
-            var element = _collection.Find(e => e.UserId == userId);
+            var element = _collection.Find(e => e.UserEntityId == userId);
             _user =  await element.CountDocumentsAsync().ConfigureAwait(false) > 0
                 ? element.ToList().First() : new UserEntity();
 

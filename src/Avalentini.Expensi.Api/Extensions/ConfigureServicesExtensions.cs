@@ -73,10 +73,10 @@ namespace Avalentini.Expensi.Api.Extensions
         private static void ConfigAction(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<ExpenseMongoEntity, Expense>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(entity => entity.ExpenseId));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(entity => entity.ExpenseMongoEntityId));
             cfg.CreateMap<Expense, ExpenseMongoEntity>()
                 .ForMember(dest => dest.CreationDate, opt => opt.Ignore())
-                .ForMember(dest => dest.ExpenseId, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest => dest.ExpenseMongoEntityId, opt => opt.MapFrom(src => src.Id));
         }
     }
 
