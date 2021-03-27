@@ -5,20 +5,21 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Avalentini.Expensi.Core.Data.ApiContracts;
 using Avalentini.Expensi.Core.Data.Entities;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace Avalentini.Expensi.Api.Data.Repository.Expenses
 {
-    public class ExpensesMongoRepository
+    public class ExpensesMongoRepository : IExpensesRepository
     {
         private readonly IMongoCollection<UserEntity> _collection;
         private readonly IMapper _mapper;
         private UserEntity _user;
         
-        public ExpensesMongoRepository(IMongoCollection<UserEntity> collection, IMapper mapper)
+        public ExpensesMongoRepository(IConfiguration config, IMapper mapper)
         {
             _mapper = mapper;
-            _collection = collection;
+            _collection = GetMongoDbCollection<UserEntity>(config);
         }
 
         public async Task<IList<Expense>> GetAll(int userId)
@@ -30,7 +31,7 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
             return await Task.FromResult(result).ConfigureAwait(false);
         }
 
-        public async Task<Expense> Get(int userId, string expenseId)
+        public async Task<Expense> GetSingle(int userId, string expenseId)
         {
             var entity = (await FetchUser(userId).ConfigureAwait(false))
                 .Expenses
@@ -94,6 +95,17 @@ namespace Avalentini.Expensi.Api.Data.Repository.Expenses
                 ? element.ToList().First() : new UserEntity();
 
             return _user;
+        }
+
+        private static IMongoCollection<T> GetMongoDbCollection<T>(IConfiguration config)
+        {
+            if (config == null) throw new ArgumentNullException(nameof(config));
+
+            var client = new MongoClient(config["MongoDbConnection"]);
+            var database = client.GetDatabase(config["MongoDbName"]);
+            var collection = database.GetCollection<T>(config["MongoCollectionName"]);
+
+            return collection;
         }
     }
 }

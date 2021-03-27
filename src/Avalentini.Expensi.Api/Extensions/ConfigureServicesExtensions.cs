@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 
 namespace Avalentini.Expensi.Api.Extensions
@@ -39,18 +38,6 @@ namespace Avalentini.Expensi.Api.Extensions
                     }
                 });
             });
-        }
-
-        public static IServiceCollection AddMongoDbCollection<T>(this IServiceCollection services, IConfiguration config)
-        {
-            if (config == null) throw new ArgumentNullException(nameof(config));
-
-            var client = new MongoClient(config["MongoDbConnection"]);
-            var database = client.GetDatabase(config["MongoDbName"]);
-            var collection = database.GetCollection<T>(config["MongoCollectionName"]);
-            services.AddSingleton(collection);
-
-            return services;
         }
 
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)

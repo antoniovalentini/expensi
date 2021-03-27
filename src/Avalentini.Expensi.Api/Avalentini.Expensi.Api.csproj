@@ -25,8 +25,4 @@
     <ProjectReference Include="..\Avalentini.Expensi.Core\Avalentini.Expensi.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Repository\Expenses\" />
-  </ItemGroup>
-
 </Project>

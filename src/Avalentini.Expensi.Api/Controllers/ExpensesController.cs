@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Avalentini.Expensi.Core.Data.Entities;
 using Avalentini.Expensi.Api.Data.Repository.Expenses;
 using Avalentini.Expensi.Core.Data.ApiContracts;
-using MongoDB.Driver;
+using Microsoft.Extensions.Configuration;
 
 namespace Avalentini.Expensi.Api.Controllers
 {
@@ -13,11 +12,11 @@ namespace Avalentini.Expensi.Api.Controllers
     [ApiController]
     public class ExpensesController : ControllerBase
     {
-        private readonly ExpensesMongoRepository _repo;
+        private readonly IExpensesRepository _repo;
 
-        public ExpensesController(IMongoCollection<UserEntity> collection, IMapper mapper)
+        public ExpensesController(IConfiguration config, IMapper mapper)
         {
-            _repo = new ExpensesMongoRepository(collection, mapper);
+            _repo = new ExpensesMongoRepository(config, mapper);
         }
 
         // GET: api/Expenses
