@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Avalentini.Expensi.Core.Misc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Avalentini.Expensi.Api.Controllers
@@ -9,11 +9,13 @@ namespace Avalentini.Expensi.Api.Controllers
         [Route("/")]
         public IActionResult Get()
         {
+            var endpoint = Endpoints.GetEndpoint();
+            
             return new JsonResult(new DefaultResult
             {
-                SwaggerJson = "https://localhost:44358/swagger/v1/swagger.json",
-                Swagger = "https://localhost:44358/swagger",
-                Test = "https://localhost:44358/api/expenses?userid=1"
+                SwaggerJson = Endpoints.UrlCombine(endpoint, "/swagger/v1/swagger.json"),
+                Swagger = Endpoints.UrlCombine(endpoint, "/swagger"),
+                Test = Endpoints.UrlCombine(endpoint, "/api/expenses?userid=1"),
             });
         }
     }

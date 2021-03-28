@@ -12,12 +12,6 @@ namespace Avalentini.Expensi.Api.Controllers
     {
         private readonly IExpensesRepository _repo;
 
-        //public ExpensesController(IConfiguration config, IMapper mapper, ExpensiDbContext context)
-        //{
-        //    //_repo = new ExpensesMongoRepository(config, mapper);
-        //    _repo = new SqliteExpensesRepository(context, mapper);
-        //}
-
         public ExpensesController(IExpensesRepository repo) => _repo = repo;
 
         // GET: api/Expenses

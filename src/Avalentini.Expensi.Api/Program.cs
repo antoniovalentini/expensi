@@ -26,6 +26,8 @@ namespace Avalentini.Expensi.Api
                     webBuilder.UseStartup<Startup>();
                 });
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         private static void CreateDbIfNotExists(IHost host)
         {
             using var scope = host.Services.CreateScope();
