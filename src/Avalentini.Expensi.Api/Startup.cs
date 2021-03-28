@@ -1,4 +1,5 @@
 using Avalentini.Expensi.Api.Data;
+using Avalentini.Expensi.Api.Data.Repository.Expenses;
 using Avalentini.Expensi.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,8 @@ namespace Avalentini.Expensi.Api
 
             services.AddDbContext<ExpensiDbContext>(options =>
                 options.UseSqlite(@"Data Source=expensi.db"));
+
+            services.AddScoped<IExpensesRepository, SqliteExpensesRepository>();
 
             services
                 .AddCors()
