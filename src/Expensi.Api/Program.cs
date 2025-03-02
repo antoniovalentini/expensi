@@ -130,6 +130,7 @@ expenseGroup.MapGet("/", async (ExpenseRepository repository, HttpContext contex
         e.Title,
         e.Description,
         e.Amount,
+        e.Currency,
         e.Date,
         e.CategoryId,
         e.Category?.Name ?? "Unknown"));
@@ -149,6 +150,7 @@ expenseGroup.MapGet("/{id}", async (Guid id, ExpenseRepository repository, HttpC
         expense.Title,
         expense.Description,
         expense.Amount,
+        expense.Currency,
         expense.Date,
         expense.CategoryId,
         expense.Category?.Name ?? "Unknown"));
@@ -163,6 +165,7 @@ expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository reposit
         Title = dto.Title,
         Description = dto.Description,
         Amount = dto.Amount,
+        Currency = dto.Currency,
         Date = dto.Date,
         CategoryId = dto.CategoryId,
         UserId = userId
@@ -170,7 +173,7 @@ expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository reposit
 
     var createdExpense = await repository.CreateAsync(expense);
     return Results.Created($"/api/expenses/{expense.Id}",
-        new ExpenseDto(createdExpense.Id, createdExpense.Title, createdExpense.Description, createdExpense.Amount,
+        new ExpenseDto(createdExpense.Id, createdExpense.Title, createdExpense.Description, createdExpense.Amount, createdExpense.Currency,
             createdExpense.Date, createdExpense.CategoryId, createdExpense.Category?.Name ?? "Unknown"));
 }).Produces<ExpenseDto>();
 
@@ -183,6 +186,7 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         Title = dto.Title,
         Description = dto.Description,
         Amount = dto.Amount,
+        Currency = dto.Currency,
         Date = dto.Date,
         CategoryId = dto.CategoryId,
         UserId = userId
@@ -198,6 +202,7 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         updatedExpense.Title,
         updatedExpense.Description,
         updatedExpense.Amount,
+        updatedExpense.Currency,
         updatedExpense.Date,
         updatedExpense.CategoryId,
         updatedExpense.Category?.Name ?? "Unknown"));
