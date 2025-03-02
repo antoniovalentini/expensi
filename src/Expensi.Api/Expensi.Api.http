@@ -1,0 +1,28 @@
+### Send POST request with json body
+POST {{host}}/api/categories/
+Content-Type: application/json
+
+{
+  "name": "Groceries",
+  "description": "Food and household items"
+}
+
+### Send GET request
+GET {{host}}/api/categories/
+Accept: application/json
+
+### Send POST for creating a new expense
+POST {{host}}/api/expenses/
+Content-Type: application/json
+
+{
+  "Title": "Weekly shopping",
+  "Description": "Grocery run at Trader Joe's",
+  "Amount": 87.50,
+  "Date": "{{$isoTimestamp}}",
+  "CategoryId": "4be87b26-c8f5-4a0e-bc09-d2dbaa8d14f0"
+}
+
+### Send GET request for expenses
+GET {{host}}/api/expenses/
+Accept: application/json
