@@ -25,6 +25,11 @@ public class ExpensiDbContext : DbContext
                 .WithMany(c => c.Expenses)
                 .HasForeignKey(e => e.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.User)
+                .WithMany(c => c.Expenses)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Category>(builder =>
