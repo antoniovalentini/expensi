@@ -52,13 +52,14 @@ Guid GetUserId(HttpContext context)
 // Category endpoints
 var categoryGroup = app.MapGroup("/api/categories");
 
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/include-metadata?view=aspnetcore-9.0&tabs=minimal-apis
 categoryGroup.MapGet("/", async (CategoryRepository repository, HttpContext context) =>
 {
     var userId = GetUserId(context);
     var categories = await repository.GetAllAsync(userId);
     var categoryDtos = categories.Select(c => new CategoryDto(c.Id, c.Name, c.Description));
     return Results.Ok(categoryDtos);
-});
+}).Produces<IEnumerable<CategoryDto>>();
 
 categoryGroup.MapGet("/{id}", async (Guid id, CategoryRepository repository, HttpContext context) =>
 {
@@ -69,7 +70,7 @@ categoryGroup.MapGet("/{id}", async (Guid id, CategoryRepository repository, Htt
         return Results.NotFound();
 
     return Results.Ok(new CategoryDto(category.Id, category.Name, category.Description));
-});
+}).Produces<CategoryDto>();
 
 categoryGroup.MapPost("/", async (CreateCategoryDto dto, CategoryRepository repository, HttpContext context) =>
 {
@@ -85,7 +86,7 @@ categoryGroup.MapPost("/", async (CreateCategoryDto dto, CategoryRepository repo
     await repository.CreateAsync(category);
     return Results.Created($"/api/categories/{category.Id}",
         new CategoryDto(category.Id, category.Name, category.Description));
-});
+}).Produces<CategoryDto>();
 
 categoryGroup.MapPut("/{id}", async (Guid id, CreateCategoryDto dto, CategoryRepository repository, HttpContext context) =>
 {
@@ -104,7 +105,7 @@ categoryGroup.MapPut("/{id}", async (Guid id, CreateCategoryDto dto, CategoryRep
         return Results.NotFound();
 
     return Results.Ok(new CategoryDto(updatedCategory.Id, updatedCategory.Name, updatedCategory.Description));
-});
+}).Produces<CategoryDto>();
 
 categoryGroup.MapDelete("/{id}", async (Guid id, CategoryRepository repository, HttpContext context) =>
 {
@@ -133,7 +134,7 @@ expenseGroup.MapGet("/", async (ExpenseRepository repository, HttpContext contex
         e.CategoryId,
         e.Category?.Name ?? "Unknown"));
     return Results.Ok(expenseDtos);
-});
+}).Produces<IEnumerable<ExpenseDto>>();
 
 expenseGroup.MapGet("/{id}", async (Guid id, ExpenseRepository repository, HttpContext context) =>
 {
@@ -151,7 +152,7 @@ expenseGroup.MapGet("/{id}", async (Guid id, ExpenseRepository repository, HttpC
         expense.Date,
         expense.CategoryId,
         expense.Category?.Name ?? "Unknown"));
-});
+}).Produces<ExpenseDto>();
 
 expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository repository, HttpContext context) =>
 {
@@ -171,7 +172,7 @@ expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository reposit
     return Results.Created($"/api/expenses/{expense.Id}",
         new ExpenseDto(createdExpense.Id, createdExpense.Title, createdExpense.Description, createdExpense.Amount,
             createdExpense.Date, createdExpense.CategoryId, createdExpense.Category?.Name ?? "Unknown"));
-});
+}).Produces<ExpenseDto>();
 
 expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseRepository repository, HttpContext context) =>
 {
@@ -200,7 +201,7 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         updatedExpense.Date,
         updatedExpense.CategoryId,
         updatedExpense.Category?.Name ?? "Unknown"));
-});
+}).Produces<ExpenseDto>();
 
 expenseGroup.MapDelete("/{id}", async (Guid id, ExpenseRepository repository, HttpContext context) =>
 {
