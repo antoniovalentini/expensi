@@ -133,7 +133,9 @@ expenseGroup.MapGet("/", async (ExpenseRepository repository, HttpContext contex
         e.Currency,
         e.Date,
         e.CategoryId,
-        e.Category?.Name ?? "Unknown"));
+        e.Category?.Name ?? "Unknown",
+        e.FamilyMemberId,
+        e.FamilyMember?.Name ?? "Family"));
     return Results.Ok(expenseDtos);
 }).Produces<IEnumerable<ExpenseDto>>();
 
@@ -153,7 +155,9 @@ expenseGroup.MapGet("/{id}", async (Guid id, ExpenseRepository repository, HttpC
         expense.Currency,
         expense.Date,
         expense.CategoryId,
-        expense.Category?.Name ?? "Unknown"));
+        expense.Category?.Name ?? "Unknown",
+        expense.FamilyMemberId,
+        expense.FamilyMember?.Name ?? "Family"));
 }).Produces<ExpenseDto>();
 
 expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository repository, HttpContext context) =>
@@ -168,13 +172,16 @@ expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository reposit
         Currency = dto.Currency,
         Date = dto.Date,
         CategoryId = dto.CategoryId,
-        UserId = userId
+        UserId = userId,
+        FamilyMemberId = dto.FamilyMemberId
     };
 
     var createdExpense = await repository.CreateAsync(expense);
     return Results.Created($"/api/expenses/{expense.Id}",
         new ExpenseDto(createdExpense.Id, createdExpense.Title, createdExpense.Description, createdExpense.Amount, createdExpense.Currency,
-            createdExpense.Date, createdExpense.CategoryId, createdExpense.Category?.Name ?? "Unknown"));
+            createdExpense.Date,
+            createdExpense.CategoryId, createdExpense.Category?.Name ?? "Unknown",
+            createdExpense.FamilyMemberId, createdExpense.FamilyMember?.Name ?? "Family"));
 }).Produces<ExpenseDto>();
 
 expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseRepository repository, HttpContext context) =>
@@ -189,7 +196,8 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         Currency = dto.Currency,
         Date = dto.Date,
         CategoryId = dto.CategoryId,
-        UserId = userId
+        UserId = userId,
+        FamilyMemberId = dto.FamilyMemberId
     };
 
     var updatedExpense = await repository.UpdateAsync(expense);
@@ -205,7 +213,9 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         updatedExpense.Currency,
         updatedExpense.Date,
         updatedExpense.CategoryId,
-        updatedExpense.Category?.Name ?? "Unknown"));
+        updatedExpense.Category?.Name ?? "Unknown",
+        updatedExpense.FamilyMemberId,
+        updatedExpense.FamilyMember?.Name ?? "Family"));
 }).Produces<ExpenseDto>();
 
 expenseGroup.MapDelete("/{id}", async (Guid id, ExpenseRepository repository, HttpContext context) =>

@@ -8,4 +8,6 @@ public record ExpenseDto(
     string Currency,
     DateTime Date,
     Guid CategoryId,
-    string CategoryName);
+    string CategoryName,
+    Guid? FamilyMemberId,
+    string FamilyMemberName);

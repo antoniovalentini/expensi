@@ -12,4 +12,6 @@ public class Expense
     public Category? Category { get; set; }
     public Guid UserId { get; set; }
     public User? User { get; set; }
+    public Guid? FamilyMemberId { get; set; }
+    public FamilyMember? FamilyMember { get; set; }
 }

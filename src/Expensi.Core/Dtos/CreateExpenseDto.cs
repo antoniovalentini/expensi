@@ -6,4 +6,5 @@ public record CreateExpenseDto(
     decimal Amount,
     string Currency,
     DateTime Date,
-    Guid CategoryId);
+    Guid CategoryId,
+    Guid? FamilyMemberId);
