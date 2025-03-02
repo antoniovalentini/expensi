@@ -45,6 +45,7 @@ public class DesignMainWindowViewModel() : MainWindowViewModel(GetAdapter())
             Description = "Expense 1 description",
             CategoryId = FakeCategories[0].Id,
             CategoryName = FakeCategories[0].Name,
+            FamilyMemberName = "Member 1"
         },
         new()
         {
@@ -55,6 +56,7 @@ public class DesignMainWindowViewModel() : MainWindowViewModel(GetAdapter())
             Description = "Expense 2 description",
             CategoryId = FakeCategories[1].Id,
             CategoryName = FakeCategories[1].Name,
+            FamilyMemberName = "Member 2"
         },
         new()
         {
@@ -65,6 +67,7 @@ public class DesignMainWindowViewModel() : MainWindowViewModel(GetAdapter())
             Description = "Expense 3 description",
             CategoryId = FakeCategories[2].Id,
             CategoryName = FakeCategories[2].Name,
+            FamilyMemberName = "Member 1"
         }
     ];
 

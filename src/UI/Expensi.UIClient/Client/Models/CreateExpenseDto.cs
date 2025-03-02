@@ -18,6 +18,14 @@ namespace Expensi.UIClient.Models
         public double? Amount { get; set; }
         /// <summary>The categoryId property</summary>
         public Guid? CategoryId { get; set; }
+        /// <summary>The currency property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Currency { get; set; }
+#nullable restore
+#else
+        public string Currency { get; set; }
+#endif
         /// <summary>The date property</summary>
         public DateTimeOffset? Date { get; set; }
         /// <summary>The description property</summary>
@@ -28,6 +36,8 @@ namespace Expensi.UIClient.Models
 #else
         public string Description { get; set; }
 #endif
+        /// <summary>The familyMemberId property</summary>
+        public Guid? FamilyMemberId { get; set; }
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -63,8 +73,10 @@ namespace Expensi.UIClient.Models
             {
                 { "amount", n => { Amount = n.GetDoubleValue(); } },
                 { "categoryId", n => { CategoryId = n.GetGuidValue(); } },
+                { "currency", n => { Currency = n.GetStringValue(); } },
                 { "date", n => { Date = n.GetDateTimeOffsetValue(); } },
                 { "description", n => { Description = n.GetStringValue(); } },
+                { "familyMemberId", n => { FamilyMemberId = n.GetGuidValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -77,8 +89,10 @@ namespace Expensi.UIClient.Models
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteDoubleValue("amount", Amount);
             writer.WriteGuidValue("categoryId", CategoryId);
+            writer.WriteStringValue("currency", Currency);
             writer.WriteDateTimeOffsetValue("date", Date);
             writer.WriteStringValue("description", Description);
+            writer.WriteGuidValue("familyMemberId", FamilyMemberId);
             writer.WriteStringValue("title", Title);
             writer.WriteAdditionalData(AdditionalData);
         }

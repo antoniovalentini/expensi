@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Expensi.UIClient.Models;
 using Microsoft.Kiota.Abstractions;
 
@@ -8,6 +11,12 @@ namespace Expensi.UIClient.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly ExpensiClient _client;
+
+    [ObservableProperty]
+    private ExpenseDto? _newExpense;
+
+    [ObservableProperty]
+    private string _totals = string.Empty;
 
     public ObservableCollection<CategoryDto> Categories { get; } = [];
     public ObservableCollection<ExpenseDto> Expenses { get; } = [];
@@ -39,5 +48,22 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             Expenses.Add(expenseDto);
         }
+
+        if (Expenses.Count == 0) return;
+
+        var totals = new Dictionary<string, decimal>();
+        foreach (var expense in Expenses)
+        {
+            if (totals.ContainsKey(expense.FamilyMemberName))
+            {
+                totals[expense.FamilyMemberName] += expense.Amount.Value;
+            }
+            else
+            {
+                totals[expense.FamilyMemberName] = expense.Amount.Value;
+            }
+        }
+
+        Totals = string.Join(" - ", totals.Select(kvp => $"{kvp.Key}: € {kvp.Value}"));
     }
 }
