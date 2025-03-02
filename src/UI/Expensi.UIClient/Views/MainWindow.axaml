@@ -1,33 +1,70 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Expensi.UIClient.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:Expensi.UIClient.ViewModels"
+        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
         x:Class="Expensi.UIClient.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+        Width="800" Height="800"
         Title="Expensi.UIClient">
 
   <Design.DataContext>
     <vm:DesignMainWindowViewModel />
   </Design.DataContext>
 
-  <Grid ColumnDefinitions="*, Auto">
-    <DataGrid Margin="20" ItemsSource="{Binding Expenses}"
-              IsReadOnly="True"
-              GridLinesVisibility="All"
-              BorderThickness="1" BorderBrush="Gray">
-      <!-- https://docs.avaloniaui.net/docs/reference/controls/datagrid/ -->
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:yyyy-MM-dd}}" />
-        <DataGridTextColumn Header="Name" Binding="{Binding Title}" />
-        <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" />
-        <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
-        <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
-      </DataGrid.Columns>
-    </DataGrid>
-    <Button Grid.Column="1" Content="Add" Margin="0 0 20 0" />
-  </Grid>
+  <dialogHost:DialogHost CloseOnClickAway="True">
+    <dialogHost:DialogHost.DialogContent>
+
+        <StackPanel Spacing="10" Margin="15" DataContext="{Binding NewExpense}">
+          <TextBlock Text="Expense Entry" FontSize="20" FontWeight="Bold"/>
+
+          <TextBlock Text="Title"/>
+          <TextBox Text="{Binding Title}" Width="300"/>
+
+          <TextBlock Text="Description"/>
+          <TextBox Text="{Binding Description}" Width="300"/>
+
+          <TextBlock Text="Amount"/>
+          <TextBox Text="{Binding Amount, Mode=TwoWay}" Width="300"/>
+
+          <TextBlock Text="Date"/>
+          <DatePicker SelectedDate="{Binding Date}" Width="300"/>
+
+          <!-- <TextBlock Text="Category"/> -->
+          <!-- <ComboBox Items="{Binding Categories}" -->
+          <!--           SelectedItem="{Binding SelectedCategoryId}" -->
+          <!--           Width="300"/> -->
+
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button Content="Cancel" Background="Gray"/>
+            <Button Content="Submit" Background="Green"/>
+          </StackPanel>
+        </StackPanel>
+
+    </dialogHost:DialogHost.DialogContent>
+    <Grid RowDefinitions="*, Auto">
+      <DataGrid Margin="20" ItemsSource="{Binding Expenses}"
+                IsReadOnly="True"
+                GridLinesVisibility="All"
+                BorderThickness="1" BorderBrush="Gray">
+        <!-- https://docs.avaloniaui.net/docs/reference/controls/datagrid/ -->
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:yyyy-MM-dd}}" />
+          <DataGridTextColumn Header="Name" Binding="{Binding Title}" />
+          <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" />
+          <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='€ {0}' }" />
+          <DataGridTextColumn Header="Member" Binding="{Binding FamilyMemberName}" />
+        </DataGrid.Columns>
+      </DataGrid>
+      <StackPanel Grid.Row="1" Spacing="10" Orientation="Horizontal" Margin="20 0 20 20">
+        <Button Content="Add" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=OpenDialogCommand}"/>
+        <TextBlock Text="{Binding Totals}" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Grid>
+  </dialogHost:DialogHost>
 
 </Window>

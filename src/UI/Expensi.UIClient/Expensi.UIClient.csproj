@@ -24,6 +24,7 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
+        <PackageReference Include="DialogHost.Avalonia" Version="0.9.2" />
         <PackageReference Include="Microsoft.Kiota.Bundle" Version="1.17.1" />
         <PackageReference Include="NSubstitute" Version="5.3.0" />
     </ItemGroup>
