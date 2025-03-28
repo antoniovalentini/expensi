@@ -9,5 +9,5 @@ public record ExpenseDto(
     DateTime Date,
     Guid CategoryId,
     string CategoryName,
-    Guid? FamilyMemberId,
-    string FamilyMemberName);
+    Guid? RemitterId,
+    string RemitterName);

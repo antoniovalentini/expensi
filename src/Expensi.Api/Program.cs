@@ -173,7 +173,7 @@ expenseGroup.MapPost("/", async (CreateExpenseDto dto, ExpenseRepository reposit
         Date = dto.Date,
         CategoryId = dto.CategoryId,
         UserId = userId,
-        RemitterId = dto.FamilyMemberId
+        RemitterId = dto.RemitterId
     };
 
     var createdExpense = await repository.CreateAsync(expense);
@@ -197,7 +197,7 @@ expenseGroup.MapPut("/{id}", async (Guid id, UpdateExpenseDto dto, ExpenseReposi
         Date = dto.Date,
         CategoryId = dto.CategoryId,
         UserId = userId,
-        RemitterId = dto.FamilyMemberId
+        RemitterId = dto.RemitterId
     };
 
     var updatedExpense = await repository.UpdateAsync(expense);

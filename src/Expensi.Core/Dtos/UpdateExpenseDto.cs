@@ -7,4 +7,4 @@ public record UpdateExpenseDto(
     string Currency,
     DateTime Date,
     Guid CategoryId,
-    Guid? FamilyMemberId);
+    Guid? RemitterId);

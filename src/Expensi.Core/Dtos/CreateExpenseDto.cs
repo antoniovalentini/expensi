@@ -7,4 +7,4 @@ public record CreateExpenseDto(
     string Currency,
     DateTime Date,
     Guid CategoryId,
-    Guid? FamilyMemberId);
+    Guid? RemitterId);
