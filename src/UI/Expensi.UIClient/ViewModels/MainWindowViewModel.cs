@@ -54,13 +54,13 @@ public partial class MainWindowViewModel : ViewModelBase
         var totals = new Dictionary<string, decimal>();
         foreach (var expense in Expenses)
         {
-            if (totals.ContainsKey(expense.FamilyMemberName))
+            if (totals.ContainsKey(expense.RemitterName))
             {
-                totals[expense.FamilyMemberName] += expense.Amount.Value;
+                totals[expense.RemitterName] += expense.Amount.Value;
             }
             else
             {
-                totals[expense.FamilyMemberName] = expense.Amount.Value;
+                totals[expense.RemitterName] = expense.Amount.Value;
             }
         }
 
