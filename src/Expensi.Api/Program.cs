@@ -7,7 +7,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options => options.AddSchemaTransformer((schema, context, token) =>
+{
+    if (context.JsonTypeInfo.Type == typeof(decimal))
+    {
+        schema.Format = "decimal";
+    }
+    return Task.CompletedTask;
+}));
 
 builder.Services.AddDbContext<ExpensiDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
