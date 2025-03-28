@@ -10,7 +10,7 @@ public class ExpenseRepository(ExpensiDbContext context)
     {
         return await context.Expenses
             .Include(e => e.Category)
-            .Include(e => e.FamilyMember)
+            .Include(e => e.Remitter)
             .Where(e => e.UserId == userId)
             .ToListAsync();
     }
@@ -19,7 +19,7 @@ public class ExpenseRepository(ExpensiDbContext context)
     {
         return await context.Expenses
             .Include(e => e.Category)
-            .Include(e => e.FamilyMember)
+            .Include(e => e.Remitter)
             .FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
     }
 

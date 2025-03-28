@@ -31,9 +31,9 @@ public class ExpensiDbContext : DbContext
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(e => e.FamilyMember)
+            builder.HasOne(e => e.Remitter)
                 .WithMany(c => c.Expenses)
-                .HasForeignKey(e => e.FamilyMemberId)
+                .HasForeignKey(e => e.RemitterId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -44,7 +44,7 @@ public class ExpensiDbContext : DbContext
             builder.Property(c => c.Description).HasMaxLength(200);
         });
 
-        modelBuilder.Entity<FamilyMember>(builder =>
+        modelBuilder.Entity<Remitter>(builder =>
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Name).IsRequired().HasMaxLength(50);
