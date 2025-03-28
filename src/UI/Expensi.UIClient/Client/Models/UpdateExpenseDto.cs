@@ -15,7 +15,7 @@ namespace Expensi.UIClient.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The amount property</summary>
-        public double? Amount { get; set; }
+        public decimal? Amount { get; set; }
         /// <summary>The categoryId property</summary>
         public Guid? CategoryId { get; set; }
         /// <summary>The currency property</summary>
@@ -36,8 +36,8 @@ namespace Expensi.UIClient.Models
 #else
         public string Description { get; set; }
 #endif
-        /// <summary>The familyMemberId property</summary>
-        public Guid? FamilyMemberId { get; set; }
+        /// <summary>The remitterId property</summary>
+        public Guid? RemitterId { get; set; }
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -71,12 +71,12 @@ namespace Expensi.UIClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "amount", n => { Amount = n.GetDoubleValue(); } },
+                { "amount", n => { Amount = n.GetDecimalValue(); } },
                 { "categoryId", n => { CategoryId = n.GetGuidValue(); } },
                 { "currency", n => { Currency = n.GetStringValue(); } },
                 { "date", n => { Date = n.GetDateTimeOffsetValue(); } },
                 { "description", n => { Description = n.GetStringValue(); } },
-                { "familyMemberId", n => { FamilyMemberId = n.GetGuidValue(); } },
+                { "remitterId", n => { RemitterId = n.GetGuidValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -87,12 +87,12 @@ namespace Expensi.UIClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteDoubleValue("amount", Amount);
+            writer.WriteDecimalValue("amount", Amount);
             writer.WriteGuidValue("categoryId", CategoryId);
             writer.WriteStringValue("currency", Currency);
             writer.WriteDateTimeOffsetValue("date", Date);
             writer.WriteStringValue("description", Description);
-            writer.WriteGuidValue("familyMemberId", FamilyMemberId);
+            writer.WriteGuidValue("remitterId", RemitterId);
             writer.WriteStringValue("title", Title);
             writer.WriteAdditionalData(AdditionalData);
         }
