@@ -93,7 +93,7 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(ExpenseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, UpdateExpenseDto dto)
+    public async Task<IActionResult> Update(Guid id, ExpenseDto dto)
     {
         var userId = HttpContext.GetUserId();
         var expense = new Expense

@@ -58,7 +58,7 @@ public class CategoriesController(CategoryRepository repository) : ControllerBas
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, CreateCategoryDto dto)
+    public async Task<IActionResult> Update(Guid id, CategoryDto dto)
     {
         var userId = HttpContext.GetUserId();
         var category = new Category
