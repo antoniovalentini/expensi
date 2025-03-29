@@ -4,14 +4,11 @@ public class Expense
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
-    public string? Description { get; set; }
+    public string Category { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public string Currency { get; set; } = "EUR";
+    public string Remitter { get; set; } = string.Empty;
     public DateTime Date { get; set; }
-    public Guid CategoryId { get; set; }
-    public Category? Category { get; set; }
-    public Guid UserId { get; set; }
-    public User? User { get; set; }
-    public Guid? RemitterId { get; set; }
-    public Remitter? Remitter { get; set; }
+    public Guid CreatedByUserId { get; set; }
+    public User? CreatedByUser { get; set; }
 }

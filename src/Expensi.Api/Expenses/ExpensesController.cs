@@ -1,6 +1,5 @@
 ﻿using Expensi.Core.Dtos;
 using Expensi.Core.Models;
-using Expensi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expensi.Api.Expenses;
@@ -15,19 +14,17 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var userId = HttpContext.GetUserId();
-        var expenses = await repository.GetAllAsync(userId);
-        var expenseDtos = expenses.Select(e => new ExpenseDto(
-            e.Id,
-            e.Title,
-            e.Description,
-            e.Amount,
-            e.Currency,
-            e.Date,
-            e.CategoryId,
-            e.Category?.Name ?? "Unknown",
-            e.RemitterId,
-            e.Remitter?.Name ?? "Family"));
-        return Ok(expenseDtos);
+        var models = await repository.GetAllAsync(userId);
+        var dtos = models.Select(model => new ExpenseDto(
+            model.Id,
+            model.Title,
+            model.Amount,
+            model.Currency,
+            model.Date,
+            model.Category,
+            model.Remitter,
+            model.CreatedByUserId));
+        return Ok(dtos);
     }
 
     // GET: api/expenses/{id}
@@ -37,22 +34,20 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
     public async Task<IActionResult> GetById(Guid id)
     {
         var userId = HttpContext.GetUserId();
-        var expense = await repository.GetByIdAsync(id, userId);
+        var model = await repository.GetByIdAsync(id, userId);
 
-        if (expense == null)
+        if (model == null)
             return NotFound();
 
         return Ok(new ExpenseDto(
-            expense.Id,
-            expense.Title,
-            expense.Description,
-            expense.Amount,
-            expense.Currency,
-            expense.Date,
-            expense.CategoryId,
-            expense.Category?.Name ?? "Unknown",
-            expense.RemitterId,
-            expense.Remitter?.Name ?? "Family"));
+            model.Id,
+            model.Title,
+            model.Amount,
+            model.Currency,
+            model.Date,
+            model.Category,
+            model.Remitter,
+            model.CreatedByUserId));
     }
 
     // POST: api/expenses
@@ -65,13 +60,12 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
         {
             Id = Guid.NewGuid(),
             Title = dto.Title,
-            Description = dto.Description,
             Amount = dto.Amount,
             Currency = dto.Currency,
             Date = dto.Date,
-            CategoryId = dto.CategoryId,
-            UserId = userId,
-            RemitterId = dto.RemitterId
+            Category = dto.Category,
+            CreatedByUserId = userId,
+            Remitter = dto.Remitter,
         };
 
         var createdExpense = await repository.CreateAsync(expense);
@@ -79,14 +73,12 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
             new ExpenseDto(
                 createdExpense.Id,
                 createdExpense.Title,
-                createdExpense.Description,
                 createdExpense.Amount,
                 createdExpense.Currency,
                 createdExpense.Date,
-                createdExpense.CategoryId,
-                createdExpense.Category?.Name ?? "Unknown",
-                createdExpense.RemitterId,
-                createdExpense.Remitter?.Name ?? "Family"));
+                createdExpense.Category,
+                createdExpense.Remitter,
+                createdExpense.CreatedByUserId));
     }
 
     // PUT: api/expenses/{id}
@@ -100,13 +92,12 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
         {
             Id = id,
             Title = dto.Title,
-            Description = dto.Description,
             Amount = dto.Amount,
             Currency = dto.Currency,
             Date = dto.Date,
-            CategoryId = dto.CategoryId,
-            UserId = userId,
-            RemitterId = dto.RemitterId
+            Category = dto.Category,
+            CreatedByUserId = userId,
+            Remitter = dto.Remitter,
         };
 
         var updatedExpense = await repository.UpdateAsync(expense);
@@ -117,14 +108,12 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
         return Ok(new ExpenseDto(
             updatedExpense.Id,
             updatedExpense.Title,
-            updatedExpense.Description,
             updatedExpense.Amount,
             updatedExpense.Currency,
             updatedExpense.Date,
-            updatedExpense.CategoryId,
-            updatedExpense.Category?.Name ?? "Unknown",
-            updatedExpense.RemitterId,
-            updatedExpense.Remitter?.Name ?? "Family"));
+            updatedExpense.Category,
+            updatedExpense.Remitter,
+            updatedExpense.CreatedByUserId));
     }
 
     // DELETE: api/expenses/{id}

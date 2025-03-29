@@ -1,5 +1,5 @@
-using Expensi.Infrastructure.Data;
-using Expensi.Infrastructure.Repositories;
+using Expensi.Api;
+using Expensi.Api.Expenses;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,6 @@ builder.Services.AddDbContext<ExpensiDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ExpenseRepository>();
-builder.Services.AddScoped<CategoryRepository>();
 
 builder.Services.AddCors(options =>
 {
