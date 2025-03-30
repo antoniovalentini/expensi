@@ -30,6 +30,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -51,5 +52,6 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 app.Run();
