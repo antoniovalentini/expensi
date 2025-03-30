@@ -23,6 +23,6 @@ Content-Type: application/json
   "CategoryId": "4be87b26-c8f5-4a0e-bc09-d2dbaa8d14f0"
 }
 
-### Send GET request for expenses
+### GET expenses
 GET {{host}}/api/expenses/
 Accept: application/json

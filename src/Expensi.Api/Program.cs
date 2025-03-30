@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         corsBuilder => corsBuilder
-            .WithOrigins("http://localhost:5173") // Replace with your frontend URL
+            .WithOrigins("http://localhost:5173","http://localhost:3000", "https://v0-simple-budgeting-app-brown.vercel.app/") // Replace with your frontend URL
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
