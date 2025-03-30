@@ -30,5 +30,12 @@ services:
     depends_on:
       - postgres
 
+  api:
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - 5008:5008
+    environment:
+      - ASPNETCORE_URLS=http://*:5008
 volumes:
   postgres_data:
