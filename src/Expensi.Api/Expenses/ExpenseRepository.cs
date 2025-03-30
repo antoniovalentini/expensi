@@ -9,6 +9,17 @@ public class ExpenseRepository(ExpensiDbContext context)
     {
         return await context.Expenses
             .Where(e => e.CreatedByUserId == userId)
+            .OrderBy(e => e.Date)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Expense>> GetByDateRangeAsync(DateTime startDate, DateTime endDate, Guid userId)
+    {
+        return await context.Expenses
+            .Where(e => e.CreatedByUserId == userId &&
+                        e.Date >= startDate &&
+                        e.Date <= endDate)
+            .OrderBy(e => e.Date)
             .ToListAsync();
     }
 

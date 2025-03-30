@@ -27,6 +27,39 @@ public class ExpensesController(ExpenseRepository repository) : ControllerBase
         return Ok(dtos);
     }
 
+    // GET: api/expenses/by-month/{year}/{month}
+    [HttpGet("by-month/{year:int}/{month:int}")]
+    [ProducesResponseType(typeof(IEnumerable<ExpenseDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByMonth(int year, int month)
+    {
+        if (month is < 1 or > 12)
+        {
+            return BadRequest("Month must be between 1 and 12");
+        }
+        if (year < 1970)
+        {
+            return BadRequest("Year must be greater than or equal to 1970");
+        }
+
+        var userId = HttpContext.GetUserId();
+        var startDate = new DateTime(year, month, 1);
+        var endDate = startDate.AddMonths(1).AddDays(-1);
+
+        var expenses = await repository.GetByDateRangeAsync(startDate, endDate, userId);
+
+        var dtos = expenses.Select(model => new ExpenseDto(
+            model.Id,
+            model.Title,
+            model.Amount,
+            model.Currency,
+            model.Date,
+            model.Category,
+            model.Remitter,
+            model.CreatedByUserId));
+
+        return Ok(dtos);
+    }
+
     // GET: api/expenses/{id}
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(ExpenseDto), StatusCodes.Status200OK)]
