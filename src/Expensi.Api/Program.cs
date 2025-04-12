@@ -1,4 +1,6 @@
 using Expensi.Infrastructure;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 const string defaultCorsPolicy = "AllowSpecificOrigin";
 
@@ -15,6 +17,9 @@ builder.Services.AddOpenApi(options => options.AddSchemaTransformer((schema, con
 }));
 
 builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddCors(options =>
 {

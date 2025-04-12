@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Expensi.Api.Expenses.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 
 namespace Expensi.Api.IntegrationTests.Expenses;
@@ -32,32 +33,32 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
         expenseDto.Id.ShouldNotBe(Guid.Empty);
     }
 
-    // [Fact]
-    // public async Task CreateExpense_WithInvalidData_ShouldReturnBadRequest()
-    // {
-    //     // Arrange
-    //     var dto = new CreateExpenseDto(
-    //         "", // Invalid: Empty description
-    //         -10m, // Invalid: Negative amount
-    //         "EUR",
-    //         DateTime.UtcNow.Date,
-    //         "Test Category",
-    //         "Family"
-    //     );
-    //
-    //     // Act
-    //     var response = await Client.PostAsJsonAsync("/api/expenses", dto);
-    //
-    //     // Assert
-    //     response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-    //
-    //     // Optional: Check for validation error details in the response body
-    //     var validationProblem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(); // Using standard ProblemDetails
-    //     validationProblem.Should().NotBeNull();
-    //     validationProblem?.Errors.Should().ContainKey("Description"); // Check specific validation errors
-    //     validationProblem?.Errors.Should().ContainKey("Amount");
-    //     validationProblem?.Errors.Should().ContainKey("CategoryId");
-    // }
+    [Fact]
+    public async Task CreateExpense_WithInvalidData_ShouldReturnBadRequest()
+    {
+        // Arrange
+        var dto = new CreateExpenseDto(
+            "", // Invalid: Empty description
+            -10m, // Invalid: Negative amount
+            "", // Invalid: Empty currency
+            DateTime.UtcNow.Date,
+            "Test Category",
+            "Family"
+        );
+
+        // Act
+        var response = await Client.PostAsJsonAsync("/api/expenses", dto);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+        // Optional: Check for validation error details in the response body
+        var validationProblem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(); // Using standard ProblemDetails
+        validationProblem.ShouldNotBeNull();
+        validationProblem?.Errors.ShouldContainKey("Title"); // Check specific validation errors
+        validationProblem?.Errors.ShouldContainKey("Amount");
+        validationProblem?.Errors.ShouldContainKey("Currency");
+    }
 
      [Fact]
     public async Task GetExpenseById_WhenExists_ShouldReturnOkAndExpense()
