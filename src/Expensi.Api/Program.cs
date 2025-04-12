@@ -2,6 +2,8 @@ using Expensi.Api;
 using Expensi.Api.Expenses;
 using Microsoft.EntityFrameworkCore;
 
+const string defaultCorsPolicy = "AllowSpecificOrigin";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -21,7 +23,7 @@ builder.Services.AddScoped<ExpenseRepository>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy(defaultCorsPolicy,
         corsBuilder => corsBuilder
             .WithOrigins("http://localhost:5173","http://localhost:3000", "https://v0-simple-budgeting-app-brown.vercel.app/") // Replace with your frontend URL
             .AllowAnyMethod()
@@ -40,7 +42,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigin");
+app.UseCors(defaultCorsPolicy);
 
 // Simple "authentication" middleware - in a real app, use proper auth
 app.Use(async (context, next) =>
