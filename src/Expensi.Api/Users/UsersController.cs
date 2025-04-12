@@ -1,5 +1,6 @@
-﻿using Expensi.Core.Dtos;
-using Expensi.Core.Models;
+﻿using Expensi.Api.Users.Dtos;
+using Expensi.Domain.Entities;
+using Expensi.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

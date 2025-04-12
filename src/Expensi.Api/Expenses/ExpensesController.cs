@@ -1,12 +1,13 @@
-﻿using Expensi.Core.Dtos;
-using Expensi.Core.Models;
+﻿using Expensi.Api.Expenses.Dtos;
+using Expensi.Application;
+using Expensi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expensi.Api.Expenses;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ExpensesController(ExpenseRepository repository) : ControllerBase
+public class ExpensesController(IExpenseRepository repository) : ControllerBase
 {
     // GET: api/expenses
     [HttpGet]

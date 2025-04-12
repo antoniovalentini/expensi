@@ -1,6 +1,4 @@
-using Expensi.Api;
-using Expensi.Api.Expenses;
-using Microsoft.EntityFrameworkCore;
+using Expensi.Infrastructure;
 
 const string defaultCorsPolicy = "AllowSpecificOrigin";
 
@@ -16,16 +14,13 @@ builder.Services.AddOpenApi(options => options.AddSchemaTransformer((schema, con
     return Task.CompletedTask;
 }));
 
-builder.Services.AddDbContext<ExpensiDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<ExpenseRepository>();
+builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(defaultCorsPolicy,
         corsBuilder => corsBuilder
-            .WithOrigins("http://localhost:5173","http://localhost:3000", "https://v0-simple-budgeting-app-brown.vercel.app/") // Replace with your frontend URL
+            .WithOrigins("http://localhost:5173", "http://localhost:3000", "https://v0-simple-budgeting-app-brown.vercel.app/") // Replace with your frontend URL
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
@@ -57,3 +52,9 @@ app.MapControllers();
 app.MapHealthChecks("/health");
 
 app.Run();
+
+// Necessary for internal visibility in integration tests
+namespace Expensi.Api
+{
+    public partial class Program { }
+}

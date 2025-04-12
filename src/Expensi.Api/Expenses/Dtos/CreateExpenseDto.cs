@@ -1,4 +1,4 @@
-﻿namespace Expensi.Core.Dtos;
+﻿namespace Expensi.Api.Expenses.Dtos;
 
 public record CreateExpenseDto(
     string Title,

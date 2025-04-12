@@ -1,4 +1,4 @@
-﻿namespace Expensi.Core.Dtos;
+﻿namespace Expensi.Api.Users.Dtos;
 
 public record UserDto(Guid Id, string Username, string Email);
 public record CreateUserDto(string Username, string Email, string Password);

@@ -1,4 +1,4 @@
-﻿namespace Expensi.Core.Models;
+﻿namespace Expensi.Domain.Entities;
 
 public class User
 {

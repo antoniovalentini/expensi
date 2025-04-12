@@ -1,9 +1,10 @@
-﻿using Expensi.Core.Models;
+﻿using Expensi.Application;
+using Expensi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensi.Api.Expenses;
+namespace Expensi.Infrastructure.Persistence.Repositories;
 
-public class ExpenseRepository(ExpensiDbContext context)
+public class ExpenseRepository(ExpensiDbContext context) : IExpenseRepository
 {
     public async Task<IEnumerable<Expense>> GetAllAsync(Guid userId)
     {

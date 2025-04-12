@@ -1,7 +1,7 @@
-﻿using Expensi.Core.Models;
+﻿using Expensi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expensi.Api;
+namespace Expensi.Infrastructure.Persistence;
 
 public class ExpensiDbContext : DbContext
 {
