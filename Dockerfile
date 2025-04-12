@@ -4,7 +4,9 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
 COPY ["./src/Expensi.Api", "/src/Expensi.Api"]
-COPY ["./src/Expensi.Core", "/src/Expensi.Core"]
+COPY ["./src/Expensi.Domain", "/src/Expensi.Domain"]
+COPY ["./src/Expensi.Application", "/src/Expensi.Application"]
+COPY ["./src/Expensi.Infrastructure", "/src/Expensi.Infrastructure"]
 
 WORKDIR "/src/Expensi.Api"
 
