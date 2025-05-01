@@ -2,6 +2,8 @@ using Expensi.Infrastructure;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 const string defaultCorsPolicy = "AllowSpecificOrigin";
 
 var builder = WebApplication.CreateBuilder(args);
