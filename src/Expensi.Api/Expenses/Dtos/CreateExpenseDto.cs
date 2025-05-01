@@ -6,7 +6,7 @@ public record CreateExpenseDto(
     string Title,
     decimal Amount,
     string Currency,
-    DateTime Date,
+    DateOnly ReferenceDate,
     string Category,
     string Remitter);
 
@@ -24,7 +24,7 @@ public class CreateExpenseRequestValidator : AbstractValidator<CreateExpenseDto>
         RuleFor(x => x.Currency)
             .NotEmpty();
 
-        RuleFor(x => x.Date)
+        RuleFor(x => x.ReferenceDate)
             .NotEmpty();
     }
 }

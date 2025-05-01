@@ -5,7 +5,7 @@ public record ExpenseDto(
     string Title,
     decimal Amount,
     string Currency,
-    DateTime Date,
+    DateOnly ReferenceDate,
     string Category,
     string Remitter,
     Guid CreatedById);

@@ -17,7 +17,7 @@ public class ExpensiDbContext : DbContext
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Title).IsRequired().HasMaxLength(100);
             builder.Property(e => e.Amount).HasColumnType("decimal(18,2)");
-            builder.Property(e => e.Date).IsRequired();
+            builder.Property(e => e.ReferenceDate).IsRequired();
 
             builder.HasOne(e => e.CreatedByUser)
                 .WithMany(c => c.Expenses)

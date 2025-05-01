@@ -21,7 +21,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             model.Title,
             model.Amount,
             model.Currency,
-            model.Date,
+            model.ReferenceDate,
             model.Category,
             model.Remitter,
             model.CreatedByUserId));
@@ -43,7 +43,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
         }
 
         var userId = HttpContext.GetUserId();
-        var startDate = new DateTime(year, month, 1);
+        var startDate = new DateOnly(year, month, 1);
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
         var expenses = await repository.GetByDateRangeAsync(startDate, endDate, userId);
@@ -53,7 +53,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             model.Title,
             model.Amount,
             model.Currency,
-            model.Date,
+            model.ReferenceDate,
             model.Category,
             model.Remitter,
             model.CreatedByUserId));
@@ -78,7 +78,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             model.Title,
             model.Amount,
             model.Currency,
-            model.Date,
+            model.ReferenceDate,
             model.Category,
             model.Remitter,
             model.CreatedByUserId));
@@ -96,7 +96,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             Title = dto.Title,
             Amount = dto.Amount,
             Currency = dto.Currency,
-            Date = dto.Date,
+            ReferenceDate = dto.ReferenceDate,
             Category = dto.Category,
             CreatedByUserId = userId,
             Remitter = dto.Remitter,
@@ -109,7 +109,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
                 createdExpense.Title,
                 createdExpense.Amount,
                 createdExpense.Currency,
-                createdExpense.Date,
+                createdExpense.ReferenceDate,
                 createdExpense.Category,
                 createdExpense.Remitter,
                 createdExpense.CreatedByUserId));
@@ -128,7 +128,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             Title = dto.Title,
             Amount = dto.Amount,
             Currency = dto.Currency,
-            Date = dto.Date,
+            ReferenceDate = dto.ReferenceDate,
             Category = dto.Category,
             CreatedByUserId = userId,
             Remitter = dto.Remitter,
@@ -144,7 +144,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             updatedExpense.Title,
             updatedExpense.Amount,
             updatedExpense.Currency,
-            updatedExpense.Date,
+            updatedExpense.ReferenceDate,
             updatedExpense.Category,
             updatedExpense.Remitter,
             updatedExpense.CreatedByUserId));

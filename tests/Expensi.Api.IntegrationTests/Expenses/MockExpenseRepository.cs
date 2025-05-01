@@ -12,7 +12,7 @@ public class MockExpenseRepository : IExpenseRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Expense>> GetByDateRangeAsync(DateTime startDate, DateTime endDate, Guid userId)
+    public Task<IEnumerable<Expense>> GetByDateRangeAsync(DateOnly startDate, DateOnly endDate, Guid userId)
     {
         throw new NotImplementedException();
     }

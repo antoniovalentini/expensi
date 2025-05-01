@@ -16,7 +16,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "Test Grocery Shopping",
             55.75m,
             "EUR",
-            DateTime.UtcNow.Date,
+            DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
             "Family"
         );
@@ -41,7 +41,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "", // Invalid: Empty description
             -10m, // Invalid: Negative amount
             "", // Invalid: Empty currency
-            DateTime.UtcNow.Date,
+            DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
             "Family"
         );
@@ -68,7 +68,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "Test Grocery Shopping",
             55.75m,
             "EUR",
-            DateTime.UtcNow.Date,
+            DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
             "Family"
         );
