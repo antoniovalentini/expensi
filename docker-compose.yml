@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
-    container_name: expensi-postgres
+    container_name: expensi-postgres-dev
     environment:
       POSTGRES_DB: expensi
       POSTGRES_USER: postgres
@@ -12,6 +10,24 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres_prod:
+    image: postgres:15
+    container_name: expensi-postgres-prod
+    environment:
+      POSTGRES_DB: expensi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_strong_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -37,5 +53,7 @@ services:
       - 5008:5008
     environment:
       - ASPNETCORE_URLS=http://*:5008
+
 volumes:
   postgres_data:
+  postgres_data_prod:
