@@ -38,8 +38,8 @@ jobs:
           push: true
           # Tags image with 'latest' and the commit SHA
           tags: |
-            ${{ gitea.instance }}/${{ gitea.owner }}/${{ gitea.repository }}:latest
-            ${{ gitea.instance }}/${{ gitea.owner }}/${{ gitea.repository }}:${{ gitea.short_sha }}
+            expensi-backend/${{ gitea.owner }}/${{ gitea.repository }}:latest
+            expensi-backend/${{ gitea.owner }}/${{ gitea.repository }}:${{ gitea.short_sha }}
           # Optional: Enable build cache for faster builds
           cache-from: type=gha
           cache-to: type=gha,mode=max
