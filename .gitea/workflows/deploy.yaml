@@ -24,7 +24,7 @@ jobs:
         # Assumes the user triggering the action has push rights to the registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ gitea.instance }}
+          registry: ${{ secrets.DEPLOY_REGISTRY_HOST }}
           username: ${{ gitea.actor }}
           password: ${{ secrets.GITEA_TOKEN }}
 
