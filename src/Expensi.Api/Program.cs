@@ -17,7 +17,7 @@ builder.Services.AddOpenApi(options => options.AddSchemaTransformer((schema, con
     return Task.CompletedTask;
 }));
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistence();
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
