@@ -12,11 +12,8 @@ jobs:
     name: Build and Push Image
     runs-on: ubuntu-latest # Or your preferred runner OS with Docker
     steps:
-      - run: echo " The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          github-server-url: 'http://gitea:3000'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
