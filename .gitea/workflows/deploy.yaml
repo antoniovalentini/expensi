@@ -12,6 +12,7 @@ jobs:
     name: Build and Push Image
     runs-on: ubuntu-latest # Or your preferred runner OS with Docker
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
