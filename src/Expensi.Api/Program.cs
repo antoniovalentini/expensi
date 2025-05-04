@@ -1,3 +1,4 @@
+using System.Reflection;
 using Expensi.Infrastructure;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -35,6 +36,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.MapGet("/api/version", () => Assembly.GetExecutingAssembly().GetName().Version?.ToString());
 
 if (app.Environment.IsDevelopment())
 {
