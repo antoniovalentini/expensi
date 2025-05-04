@@ -39,7 +39,7 @@ jobs:
           # Tags image with 'latest' and the commit SHA
           tags: |
             expensi-backend:latest
-            expensi-backend:${{ gitea.short_sha }}
+            expensi-backend:0.0.1
           # Optional: Enable build cache for faster builds
           cache-from: type=gha
           cache-to: type=gha,mode=max
