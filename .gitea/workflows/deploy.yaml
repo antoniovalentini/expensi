@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and push Docker image
         id: build-push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           # Assumes Dockerfile is at the root, change 'context' if needed
@@ -38,8 +38,8 @@ jobs:
           push: true
           # Tags image with 'latest' and the commit SHA
           tags: |
-            expensi-backend:latest
-            expensi-backend:0.0.1
+            ${{ secrets.DEPLOY_REGISTRY_HOST }}/${{ secrets.DEPLOY_REGISTRY_USER }}/expensi:latest
+            ${{ secrets.DEPLOY_REGISTRY_HOST }}/${{ secrets.DEPLOY_REGISTRY_USER }}/expensi:0.0.2
           # Optional: Enable build cache for faster builds
           cache-from: type=gha
           cache-to: type=gha,mode=max
