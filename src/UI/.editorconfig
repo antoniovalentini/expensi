@@ -1,0 +1,4 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+[*.{axaml,xaml}]
+indent_size = 2

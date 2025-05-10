@@ -10,8 +10,5 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 
-[*.{axaml,xaml}]
-indent_size = 2
-
 # dotnet specific
 dotnet_sort_system_directives_first = true
