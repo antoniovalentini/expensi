@@ -1,8 +1,6 @@
 ﻿#!/bin/bash
 set -e
 
-git -C ./expensi pull
-
 docker run --rm \
   -v "$(pwd)/src/Expensi.Infrastructure/Persistence/Migrations/:/flyway/sql/" \
   --env-file ./flyway.env \
