@@ -7,6 +7,9 @@ COPY ["./src/Expensi.Api", "/src/Expensi.Api"]
 COPY ["./src/Expensi.Domain", "/src/Expensi.Domain"]
 COPY ["./src/Expensi.Application", "/src/Expensi.Application"]
 COPY ["./src/Expensi.Infrastructure", "/src/Expensi.Infrastructure"]
+COPY ["./src/Expensi.Infrastructure", "/src/Expensi.Infrastructure"]
+COPY ["Directory.Build.props", "Directory.Build.props"]
+COPY ["Directory.Packages.props", "Directory.Packages.props"]
 
 WORKDIR "/src/Expensi.Api"
 
