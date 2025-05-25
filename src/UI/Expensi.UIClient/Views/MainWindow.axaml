@@ -24,14 +24,11 @@
           <TextBlock Text="Title"/>
           <TextBox Text="{Binding Title}" Width="300"/>
 
-          <TextBlock Text="Description"/>
-          <TextBox Text="{Binding Description}" Width="300"/>
-
           <TextBlock Text="Amount"/>
           <TextBox Text="{Binding Amount, Mode=TwoWay}" Width="300"/>
 
           <TextBlock Text="Date"/>
-          <DatePicker SelectedDate="{Binding Date}" Width="300"/>
+          <DatePicker SelectedDate="{Binding ReferenceDate}" Width="300"/>
 
           <!-- <TextBlock Text="Category"/> -->
           <!-- <ComboBox Items="{Binding Categories}" -->
@@ -52,11 +49,11 @@
                 BorderThickness="1" BorderBrush="Gray">
         <!-- https://docs.avaloniaui.net/docs/reference/controls/datagrid/ -->
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:yyyy-MM-dd}}" />
+          <DataGridTextColumn Header="Date" Binding="{Binding ReferenceDate, StringFormat={}{0:yyyy-MM-dd}}" />
           <DataGridTextColumn Header="Name" Binding="{Binding Title}" />
-          <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" />
+          <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
           <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='€ {0}' }" />
-          <DataGridTextColumn Header="Member" Binding="{Binding RemitterName}" />
+          <DataGridTextColumn Header="Member" Binding="{Binding Remitter}" />
         </DataGrid.Columns>
       </DataGrid>
       <StackPanel Grid.Row="1" Spacing="10" Orientation="Horizontal" Margin="20 0 20 20">

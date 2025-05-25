@@ -1,92 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Expensi.UIClient.Models;
-using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Abstractions.Serialization;
-using NSubstitute;
+﻿using Expensi.UIClient.Dtos;
 
 namespace Expensi.UIClient.ViewModels;
 
-public class DesignMainWindowViewModel() : MainWindowViewModel(GetAdapter())
+public class DesignMainWindowViewModel() : MainWindowViewModel(new FakeExpensiClient())
 {
-    private static readonly List<CategoryDto> FakeCategories =
+    private static readonly List<string> FakeCategories =
     [
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Category 1",
-            Description = "Description 1"
-        },
-
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Category 2",
-            Description = "Description 2"
-        },
-
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Category 3",
-            Description = "Description 3"
-        }
+        "Category 1",
+        "Category 2",
+        "Category 3",
     ];
 
     private static readonly List<ExpenseDto> FakeExpenses =
     [
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Title = "Expense 1",
-            Amount = 100,
-            Date = DateTime.Now,
-            Description = "Expense 1 description",
-            CategoryId = FakeCategories[0].Id,
-            CategoryName = FakeCategories[0].Name,
-            RemitterName = "Member 1"
-        },
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Title = "Expense 2",
-            Amount = 200,
-            Date = DateTime.Now,
-            Description = "Expense 2 description",
-            CategoryId = FakeCategories[1].Id,
-            CategoryName = FakeCategories[1].Name,
-            RemitterName = "Member 2"
-        },
-        new()
-        {
-            Id = Guid.NewGuid(),
-            Title = "Expense 3",
-            Amount = 300,
-            Date = DateTime.Now,
-            Description = "Expense 3 description",
-            CategoryId = FakeCategories[2].Id,
-            CategoryName = FakeCategories[2].Name,
-            RemitterName = "Member 1"
-        }
+        new(
+            Guid.NewGuid(),
+            "Expense 1",
+            100,
+            "EUR",
+            DateOnly.FromDateTime(DateTime.Now).AddDays(-1),
+            FakeCategories[0],
+            "Member 1",
+            Guid.AllBitsSet
+        ),
+        new(
+            Guid.NewGuid(),
+            "Expense 2",
+            200,
+            "EUR",
+            DateOnly.FromDateTime(DateTime.Now).AddDays(-10),
+            FakeCategories[1],
+            "Member 2",
+            Guid.AllBitsSet
+        ),
+        new(
+            Guid.NewGuid(),
+            "Expense 3",
+            300,
+            "EUR",
+            DateOnly.FromDateTime(DateTime.Now).AddDays(-20),
+            FakeCategories[2],
+            "Member 1",
+            Guid.AllBitsSet
+        )
     ];
 
-    private static IRequestAdapter GetAdapter()
+    private class FakeExpensiClient : IExpensiClient
     {
-        // https://learn.microsoft.com/en-us/openapi/kiota/testing
-        var adapter = Substitute.For<IRequestAdapter>();
-        adapter.SendCollectionAsync(
-                Arg.Any<RequestInformation>(),
-                Arg.Any<ParsableFactory<CategoryDto>>(),
-                Arg.Any<Dictionary<string, ParsableFactory<IParsable>>>(),
-                Arg.Any<CancellationToken>())
-            .ReturnsForAnyArgs(FakeCategories);
-        adapter.SendCollectionAsync(
-                Arg.Any<RequestInformation>(),
-                Arg.Any<ParsableFactory<ExpenseDto>>(),
-                Arg.Any<Dictionary<string, ParsableFactory<IParsable>>>(),
-                Arg.Any<CancellationToken>())
-            .ReturnsForAnyArgs(FakeExpenses);
-        return adapter;
+        public Task<IEnumerable<ExpenseDto>> GetExpensesAsync()
+            => Task.FromResult<IEnumerable<ExpenseDto>>(FakeExpenses);
     }
 }

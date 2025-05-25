@@ -23,7 +23,5 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="DialogHost.Avalonia" />
-        <PackageReference Include="Microsoft.Kiota.Bundle" />
-        <PackageReference Include="NSubstitute" />
     </ItemGroup>
 </Project>

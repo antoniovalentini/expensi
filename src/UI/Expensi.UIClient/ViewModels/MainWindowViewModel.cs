@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Expensi.UIClient.Models;
-using Microsoft.Kiota.Abstractions;
+using Expensi.UIClient.Dtos;
 
 namespace Expensi.UIClient.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    private readonly ExpensiClient _client;
+    private readonly IExpensiClient _client;
 
     [ObservableProperty]
     private ExpenseDto? _newExpense;
@@ -18,30 +14,18 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private string _totals = string.Empty;
 
-    public ObservableCollection<CategoryDto> Categories { get; } = [];
     public ObservableCollection<ExpenseDto> Expenses { get; } = [];
 
-    public MainWindowViewModel(IRequestAdapter adapter)
+    public MainWindowViewModel(IExpensiClient client)
     {
-        _client = new ExpensiClient(adapter);
+        _client = client;
         _ = Init();
     }
 
     private async Task Init()
     {
-        // GET /categories
-        var categories = await _client.Api.Categories.GetAsync();
-        if (categories is null) return;
-
-        Categories.Clear();
-        foreach (var categoryDto in categories)
-        {
-            Categories.Add(categoryDto);
-        }
-
         // GET /expenses
-        var expenses = await _client.Api.Expenses.GetAsync();
-        if (expenses is null) return;
+        var expenses = await _client.GetExpensesAsync();
 
         Expenses.Clear();
         foreach (var expenseDto in expenses)
@@ -54,13 +38,13 @@ public partial class MainWindowViewModel : ViewModelBase
         var totals = new Dictionary<string, decimal>();
         foreach (var expense in Expenses)
         {
-            if (totals.ContainsKey(expense.RemitterName!))
+            if (totals.ContainsKey(expense.Remitter))
             {
-                totals[expense.RemitterName!] += expense.Amount!.Value;
+                totals[expense.Remitter] += expense.Amount;
             }
             else
             {
-                totals[expense.RemitterName!] = expense.Amount!.Value;
+                totals[expense.Remitter] = expense.Amount;
             }
         }
 
