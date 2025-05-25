@@ -49,5 +49,8 @@ public class DesignMainWindowViewModel() : MainWindowViewModel(new FakeExpensiCl
     {
         public Task<IEnumerable<ExpenseDto>> GetExpensesAsync()
             => Task.FromResult<IEnumerable<ExpenseDto>>(FakeExpenses);
+
+        public Task<IEnumerable<ExpenseDto>> GetExpensesByMonthAsync(int year, int month)
+            => Task.FromResult<IEnumerable<ExpenseDto>>(FakeExpenses);
     }
 }

@@ -14,18 +14,26 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private string _totals = string.Empty;
 
+    [ObservableProperty]
+    private DateTimeOffset _selectedDate = DateTimeOffset.Now;
+
+    // ReSharper disable once UnusedParameterInPartialMethod
+    partial void OnSelectedDateChanged(DateTimeOffset value)
+    {
+        _ = FetchExpenses();
+    }
+
     public ObservableCollection<ExpenseDto> Expenses { get; } = [];
 
     public MainWindowViewModel(IExpensiClient client)
     {
         _client = client;
-        _ = Init();
+        _ = FetchExpenses();
     }
 
-    private async Task Init()
+    private async Task FetchExpenses()
     {
-        // GET /expenses
-        var expenses = await _client.GetExpensesAsync();
+        var expenses = await _client.GetExpensesByMonthAsync(SelectedDate.Year, SelectedDate.Month);
 
         Expenses.Clear();
         foreach (var expenseDto in expenses)
