@@ -18,6 +18,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "EUR",
             DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
+            "Test Category SubType",
             "Family"
         );
 
@@ -43,6 +44,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "", // Invalid: Empty currency
             DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
+            "Test Category SubType",
             "Family"
         );
 
@@ -70,6 +72,7 @@ public class ExpensesEndpointsTests(ExpensesApiFactory factory) : IntegrationTes
             "EUR",
             DateOnly.FromDateTime(DateTime.UtcNow),
             "Test Category",
+            "Test Category SubType",
             "Family"
         );
         var createResponse = await Client.PostAsJsonAsync("/api/expenses", dto);

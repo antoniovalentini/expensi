@@ -8,6 +8,7 @@ public record CreateExpenseDto(
     string Currency,
     DateOnly ReferenceDate,
     string Category,
+    string CategorySubType,
     string Remitter);
 
 public class CreateExpenseRequestValidator : AbstractValidator<CreateExpenseDto>

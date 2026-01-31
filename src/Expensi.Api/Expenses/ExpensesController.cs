@@ -16,15 +16,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
     {
         var userId = HttpContext.GetUserId();
         var models = await repository.GetAllAsync(userId);
-        var dtos = models.Select(model => new ExpenseDto(
-            model.Id,
-            model.Title,
-            model.Amount,
-            model.Currency,
-            model.ReferenceDate,
-            model.Category,
-            model.Remitter,
-            model.CreatedByUserId));
+        var dtos = models.Select(model => model.ToDto());
         return Ok(dtos);
     }
 
@@ -48,15 +40,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
 
         var expenses = await repository.GetByDateRangeAsync(startDate, endDate, userId);
 
-        var dtos = expenses.Select(model => new ExpenseDto(
-            model.Id,
-            model.Title,
-            model.Amount,
-            model.Currency,
-            model.ReferenceDate,
-            model.Category,
-            model.Remitter,
-            model.CreatedByUserId));
+        var dtos = expenses.Select(model => model.ToDto());
 
         return Ok(dtos);
     }
@@ -73,15 +57,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
         if (model == null)
             return NotFound();
 
-        return Ok(new ExpenseDto(
-            model.Id,
-            model.Title,
-            model.Amount,
-            model.Currency,
-            model.ReferenceDate,
-            model.Category,
-            model.Remitter,
-            model.CreatedByUserId));
+        return Ok(model.ToDto());
     }
 
     // POST: api/expenses
@@ -98,21 +74,13 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             Currency = dto.Currency,
             ReferenceDate = dto.ReferenceDate,
             Category = dto.Category,
+            CategorySubType = dto.CategorySubType,
             CreatedByUserId = userId,
             Remitter = dto.Remitter,
         };
 
         var createdExpense = await repository.CreateAsync(expense);
-        return CreatedAtAction(nameof(GetById), new { id = createdExpense.Id },
-            new ExpenseDto(
-                createdExpense.Id,
-                createdExpense.Title,
-                createdExpense.Amount,
-                createdExpense.Currency,
-                createdExpense.ReferenceDate,
-                createdExpense.Category,
-                createdExpense.Remitter,
-                createdExpense.CreatedByUserId));
+        return CreatedAtAction(nameof(GetById), new { id = createdExpense.Id }, createdExpense.ToDto());
     }
 
     // PUT: api/expenses/{id}
@@ -130,6 +98,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             Currency = dto.Currency,
             ReferenceDate = dto.ReferenceDate,
             Category = dto.Category,
+            CategorySubType = dto.CategorySubType,
             CreatedByUserId = userId,
             Remitter = dto.Remitter,
         };
@@ -139,15 +108,7 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
         if (updatedExpense == null)
             return NotFound();
 
-        return Ok(new ExpenseDto(
-            updatedExpense.Id,
-            updatedExpense.Title,
-            updatedExpense.Amount,
-            updatedExpense.Currency,
-            updatedExpense.ReferenceDate,
-            updatedExpense.Category,
-            updatedExpense.Remitter,
-            updatedExpense.CreatedByUserId));
+        return Ok(updatedExpense.ToDto());
     }
 
     // DELETE: api/expenses/{id}
@@ -163,5 +124,22 @@ public class ExpensesController(IExpenseRepository repository) : ControllerBase
             return NotFound();
 
         return NoContent();
+    }
+}
+
+public static class DtoExtensions
+{
+    public static ExpenseDto ToDto(this Expense model)
+    {
+        return new ExpenseDto(
+            model.Id,
+            model.Title,
+            model.Amount,
+            model.Currency,
+            model.ReferenceDate,
+            model.Category,
+            model.CategorySubType,
+            model.Remitter,
+            model.CreatedByUserId);
     }
 }
