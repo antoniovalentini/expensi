@@ -33,19 +33,9 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async Task AddFakeExpense()
+    private async Task AddFakeExpense()
     {
-        var fakeExpense = new CreateExpenseDto(
-            Title: "Fake Expense for Testing",
-            Amount: 50.00m,
-            Currency: "EUR",
-            ReferenceDate: DateOnly.FromDateTime(DateTime.UtcNow),
-            Category: "Food",
-            CategorySubType: "Restaurant",
-            Remitter: "Test User"
-        );
-
-        var newExpense = await _client.CreateExpenseAsync(fakeExpense);
+        var newExpense = await _client.CreateExpenseAsync(DesignMainWindowViewModel.CreateFakeExpense());
         if (newExpense == null)
         {
             Console.WriteLine("Failed to create expense");
