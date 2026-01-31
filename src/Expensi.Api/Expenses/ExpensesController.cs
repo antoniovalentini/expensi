@@ -1,5 +1,5 @@
 ﻿using Expensi.Api.Expenses.Dtos;
-using Expensi.Application;
+using Expensi.Domain;
 using Expensi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

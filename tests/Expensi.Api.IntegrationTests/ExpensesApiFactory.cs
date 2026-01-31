@@ -1,5 +1,5 @@
 ﻿using Expensi.Api.IntegrationTests.Expenses;
-using Expensi.Application;
+using Expensi.Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

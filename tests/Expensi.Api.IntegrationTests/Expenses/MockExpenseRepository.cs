@@ -1,4 +1,4 @@
-﻿using Expensi.Application;
+﻿using Expensi.Domain;
 using Expensi.Domain.Entities;
 
 namespace Expensi.Api.IntegrationTests.Expenses;

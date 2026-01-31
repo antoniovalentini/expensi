@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Expensi.Application;
+using Expensi.Domain;
 using Expensi.Infrastructure.Persistence;
 using Expensi.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 ﻿using Expensi.Domain.Entities;
 
-namespace Expensi.Application;
+namespace Expensi.Domain;
 
 public interface IExpenseRepository
 {
