@@ -55,6 +55,7 @@
           <DataGridTextColumn Header="Date" Binding="{Binding ReferenceDate, StringFormat={}{0:yyyy-MM-dd}}" />
           <DataGridTextColumn Header="Name" Binding="{Binding Title}" />
           <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+          <DataGridTextColumn Header="Sub Category" Binding="{Binding CategorySubType}" />
           <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat='€ {0}' }" />
           <DataGridTextColumn Header="Member" Binding="{Binding Remitter}" />
         </DataGrid.Columns>
@@ -62,6 +63,8 @@
       <StackPanel Grid.Row="2" Spacing="10" Orientation="Horizontal" Margin="20 0 20 20">
         <Button Content="Add" VerticalAlignment="Center" VerticalContentAlignment="Center"
                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dialogHost:DialogHost}, Path=OpenDialogCommand}"/>
+        <Button Content="Add Test Expense" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                Command="{Binding AddFakeExpenseCommand}"/>
         <TextBlock Text="{Binding Totals}" VerticalAlignment="Center"/>
       </StackPanel>
     </Grid>

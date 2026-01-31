@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Expensi.UIClient.Dtos;
 
 namespace Expensi.UIClient.ViewModels;
@@ -30,6 +31,28 @@ public partial class MainWindowViewModel : ViewModelBase
         _client = client;
         _ = FetchExpenses();
     }
+
+    [RelayCommand]
+    public async Task AddFakeExpense()
+    {
+        var fakeExpense = new CreateExpenseDto(
+            Title: "Fake Expense for Testing",
+            Amount: 50.00m,
+            Currency: "EUR",
+            ReferenceDate: DateOnly.FromDateTime(DateTime.UtcNow),
+            Category: "Food",
+            CategorySubType: "Restaurant",
+            Remitter: "Test User"
+        );
+
+        var newExpense = await _client.CreateExpenseAsync(fakeExpense);
+        if (newExpense == null)
+        {
+            Console.WriteLine("Failed to create expense");
+        }
+        await FetchExpenses();
+    }
+
 
     private async Task FetchExpenses()
     {

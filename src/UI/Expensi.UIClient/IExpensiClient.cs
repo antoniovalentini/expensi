@@ -7,6 +7,7 @@ public interface IExpensiClient
 {
     Task<IEnumerable<ExpenseDto>> GetExpensesAsync();
     Task<IEnumerable<ExpenseDto>> GetExpensesByMonthAsync(int year, int month);
+    Task<ExpenseDto?> CreateExpenseAsync(CreateExpenseDto expense);
 }
 
 public class ExpensiClient(HttpClient httpClient) : IExpensiClient
@@ -39,6 +40,22 @@ public class ExpensiClient(HttpClient httpClient) : IExpensiClient
         {
             Console.WriteLine(e);
             return Array.Empty<ExpenseDto>();
+        }
+    }
+
+    public async Task<ExpenseDto?> CreateExpenseAsync(CreateExpenseDto expense)
+    {
+        try
+        {
+            var httpContent = JsonContent.Create(expense);
+            var response = await httpClient.PostAsync("expenses", httpContent);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<ExpenseDto>();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Expensi.UIClient;
 
 public partial class App : Application
 {
-    private const string BaseAddress = "http://localhost:5008/api/";
+    private const string BaseAddress = "http://localhost:5038/api/";
 
     public override void Initialize()
     {
