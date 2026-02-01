@@ -43,6 +43,17 @@ public partial class MainWindowViewModel : ViewModelBase
         await FetchExpenses();
     }
 
+    [RelayCommand]
+    private void IncreaseMonth()
+    {
+        SelectedDate = SelectedDate.AddMonths(1);
+    }
+
+    [RelayCommand]
+    private void DecreaseMonth()
+    {
+        SelectedDate = SelectedDate.AddMonths(-1);
+    }
 
     private async Task FetchExpenses()
     {
@@ -69,6 +80,7 @@ public partial class MainWindowViewModel : ViewModelBase
             }
         }
 
-        Totals = string.Join(" - ", totals.Select(kvp => $"{kvp.Key}: € {kvp.Value}"));
+        var total = totals.Sum(x => x.Value);
+        Totals = string.Join(" - ", totals.Select(kvp => $"{kvp.Key}: € {kvp.Value}")) + $" | Total: € {total}";
     }
 }

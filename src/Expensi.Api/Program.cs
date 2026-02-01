@@ -7,6 +7,9 @@ const string defaultCorsPolicy = "AllowSpecificOrigin";
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add environment variables to configuration
+builder.Configuration.AddEnvironmentVariables();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(options => options.AddSchemaTransformer((schema, context, _) =>
 {

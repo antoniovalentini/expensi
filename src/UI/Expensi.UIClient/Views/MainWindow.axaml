@@ -45,7 +45,9 @@
 
     <Grid RowDefinitions="Auto, *, Auto">
       <StackPanel Margin="20" Orientation="Horizontal" Spacing="10">
+        <Button Content="Prev" Command="{Binding DecreaseMonthCommand}"/>
         <DatePicker DayVisible="False" SelectedDate="{Binding SelectedDate}" />
+        <Button Content="Next" Command="{Binding IncreaseMonthCommand}"/>
       </StackPanel>
       <DataGrid Grid.Row="1" Margin="20 0 20 20" ItemsSource="{Binding Expenses}"
                 IsReadOnly="True"
