@@ -9,6 +9,7 @@ public class ExpensiDbContext : DbContext
 
     public DbSet<Expense> Expenses => Set<Expense>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<Remitter> Remitters => Set<Remitter>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,6 +35,12 @@ public class ExpensiDbContext : DbContext
 
             builder.HasIndex(u => u.Username).IsUnique();
             builder.HasIndex(u => u.Email).IsUnique();
+        });
+
+
+        modelBuilder.Entity<Remitter>(builder =>
+        {
+            builder.HasKey(e => e.Id);
         });
     }
 }
